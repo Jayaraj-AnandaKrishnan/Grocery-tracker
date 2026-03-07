@@ -928,6 +928,7 @@ return ‘🛒’;
 //  HOME PAGE
 // ─────────────────────────────────────────────
 function renderHome() {
+_groceryItems = [];
 const items = uniqueItems();
 const ad = getActiveDeals(), md = matchedDeals();
 let savings = 0;
@@ -977,13 +978,13 @@ var deal  = itemHasDeal(item);
 var count = pbs.length;
 var emoji = itemEmoji(item);
 var c     = storeColor(best.store);
-var safeItem = encodeURIComponent(item);
+var idx   = _groceryItems.push(item) - 1;
 var dealLine = deal ? ‘<div class="g-deal-line">🏷 $’ + deal.price.toFixed(2) + ’ at ’ + deal.store + ’ · ends ’ + fmtD(deal.dateTo) + ‘</div>’ : ‘’;
 var salePill = deal ? ‘<span class="on-sale-pill">🏷 ON SALE</span>’ : ‘’;
 var storePill = count > 1 ? ‘<span class="store-count-pill">+’ + (count-1) + ’ more store’ + (count>2?‘s’:’’) + ‘</span>’ : ‘’;
 var qtySpan = best.qty ? ‘<span>· ’ + best.qty + ‘</span>’ : ‘’;
 return ‘<div class="g-card ' + (deal?'has-deal':'') + '" style="display:flex;align-items:center;">’
-+ ‘<div style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0;padding-right:4px" onclick="openSheet(decodeURIComponent('' + safeItem + ''))">’
++ ‘<div class="g-card-main" data-idx="' + idx + '" style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0;padding-right:4px">’
 + ‘<div class="g-icon">’ + emoji + ‘</div>’
 + ‘<div class="g-body">’
 + ‘<div class="g-name">’ + item + ’ ’ + salePill + ‘</div>’
@@ -995,7 +996,7 @@ return ‘<div class="g-card ' + (deal?'has-deal':'') + '" style="display:flex;a
 + ‘<div class="g-right"><div class="g-price">$’ + parseFloat(best.price).toFixed(2) + ‘</div><div class="g-store-lbl">best price</div></div>’
 + ‘<span class="g-caret">›</span>’
 + ‘</div>’
-+ ‘<button onclick=“deleteItemDirect(decodeURIComponent(’’ + safeItem + ‘’))” title=“Remove” class=“g-del-btn”’
++ ‘<button class=“g-del-btn” data-idx=”’ + idx + ‘” title=“Remove”’
 + ’ style=“flex-shrink:0;width:36px;height:36px;border-radius:8px;background:none;border:none;’
 + ‘color:#a09a93;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:4px”>🗑</button>’
 + ‘</div>’;
@@ -1005,6 +1006,7 @@ return ‘<div class="g-card ' + (deal?'has-deal':'') + '" style="display:flex;a
 //  GROCERY LIST PAGE
 // ─────────────────────────────────────────────
 function renderGrocery() {
+_groceryItems = [];
 let items = uniqueItems();
 if (filterStore) items = items.filter(item => pricesByStore(item).some(p=>p.store===filterStore));
 const fc = document.getElementById(‘filter-chips’);
@@ -1089,6 +1091,34 @@ sh.ontouchmove  = e => { if(e.touches[0].clientY-sy>70&&sh.scrollTop===0) closeS
 
 function closeSheet() { document.getElementById(‘sheet-ov’).classList.remove(‘on’); }
 
+// grocery card item registry — populated by buildGroceryCard
+var _groceryItems = [];
+
+// Event delegation for grocery cards — handles both tap-to-open and delete
+document.addEventListener(‘click’, function(e) {
+var main = e.target.closest(’.g-card-main’);
+var del  = e.target.closest(’.g-del-btn’);
+if (main) {
+var idx = parseInt(main.getAttribute(‘data-idx’));
+if (!isNaN(idx) && _groceryItems[idx]) openSheet(_groceryItems[idx]);
+} else if (del) {
+var idx = parseInt(del.getAttribute(‘data-idx’));
+if (!isNaN(idx) && _groceryItems[idx]) {
+var item = _groceryItems[idx];
+if (!confirm(‘Remove “’ + item + ‘” and all its price history?’)) return;
+entries = entries.filter(function(e){ return e.item !== item; });
+persistEntries();
+closeSheet();
+renderHome();
+var gpage = document.getElementById(‘page-grocery’);
+if (gpage && gpage.classList.contains(‘active’)) renderGrocery();
+var ppage = document.getElementById(‘page-pricetable’);
+if (ppage && ppage.classList.contains(‘active’)) renderPriceTable();
+toast(’”’ + item + ‘” removed.’);
+}
+}
+});
+
 const _itemReg = {};
 let _itemRegIdx = 0;
 function regItem(item) {
@@ -1123,18 +1153,6 @@ renderHome();
 if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
 if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
 toast(`"${item}" removed from your list.`);
-}
-
-function deleteItemDirect(item) {
-if (!item) return;
-if (!confirm(‘Remove “’ + item + ‘” and all its price history?’)) return;
-entries = entries.filter(function(e){ return e.item !== item; });
-persistEntries();
-closeSheet();
-renderHome();
-if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
-if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
-toast(’”’ + item + ‘” removed.’);
 }
 
 // ─────────────────────────────────────────────
