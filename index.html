@@ -8,67 +8,57 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#f5f4f0;
-  --white:#ffffff;
-  --card:#ffffff;
-  --surf2:#f0ede8;
-  --surf3:#e8e4de;
-  --border:#e2ddd7;
-  --border2:#d4cfc8;
-  --ink:#1a1814;
-  --ink2:#6b6560;
-  --ink3:#a09a93;
-  --amber:#f59e0b;
-  --amber2:#fbbf24;
-  --green:#16a34a;
-  --green-bg:#f0fdf4;
-  --green-border:#bbf7d0;
-  --red:#dc2626;
-  --red-bg:#fef2f2;
-  --purple:#7c3aed;
-  --purple-bg:#f5f3ff;
-  --purple-border:#ddd6fe;
+  --bg:#f5f4f0; --white:#ffffff; --card:#ffffff;
+  --surf2:#f0ede8; --surf3:#e8e4de;
+  --border:#e2ddd7; --border2:#d4cfc8;
+  --ink:#1a1814; --ink2:#6b6560; --ink3:#a09a93;
+  --amber:#f59e0b; --amber2:#fbbf24;
+  --green:#16a34a; --green-bg:#f0fdf4; --green-border:#bbf7d0;
+  --red:#dc2626; --red-bg:#fef2f2;
+  --purple:#7c3aed; --purple-bg:#f5f3ff; --purple-border:#ddd6fe;
   --blue:#2563eb;
-  --hdr:60px; --nav:68px; --r:16px; --r2:12px; --r3:8px;
+  --hdr:56px; --nav:60px; --r:16px; --r2:12px; --r3:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;background:var(--bg);}
 body{font-family:'Inter',sans-serif;color:var(--ink);overscroll-behavior:none;}
-
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(–border2);border-radius:4px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
 
 /* ── HEADER ── */
+/* FIX 1: logo no longer wraps — flex + nowrap on logo text, smaller font on mobile */
 .hdr{
 position:fixed;top:0;left:0;right:0;height:var(–hdr);
 background:var(–white);border-bottom:1px solid var(–border);
 display:flex;align-items:center;justify-content:space-between;
-padding:0 16px;z-index:400;
+padding:0 12px;z-index:400;gap:8px;
 }
-.hdr-l{display:flex;align-items:center;gap:10px;}
-.logo{font-size:1.2rem;font-weight:800;color:var(–ink);letter-spacing:-.5px;}
+.hdr-l{display:flex;align-items:center;gap:8px;min-width:0;flex-shrink:1;}
+.logo{font-size:1.1rem;font-weight:800;color:var(–ink);letter-spacing:-.5px;white-space:nowrap;}
 .logo em{color:var(–amber);font-style:normal;}
-.logo span{font-size:.6rem;font-weight:500;color:var(–ink3);margin-left:5px;letter-spacing:0;vertical-align:middle;}
-.hdr-r{display:flex;gap:8px;align-items:center;}
-.icon-btn{width:38px;height:38px;border-radius:var(–r3);background:none;border:none;color:var(–ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;}
+/* FIX 2: hide subtitle on mobile to prevent wrap */
+.logo span{font-size:.58rem;font-weight:500;color:var(–ink3);margin-left:4px;letter-spacing:0;vertical-align:middle;}
+@media(max-width:400px){.logo span{display:none;}}
+.hdr-r{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.icon-btn{width:36px;height:36px;border-radius:var(–r3);background:none;border:none;color:var(–ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;}
 .icon-btn:active{background:var(–surf2);}
 .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
 
 /* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 16px;border-radius:var(–r3);font-family:‘Inter’,sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:.15s;white-space:nowrap;letter-spacing:-.1px;}
-.btn-amber{background:var(–amber);color:#fff;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(–r3);font-family:‘Inter’,sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:.15s;white-space:nowrap;letter-spacing:-.1px;}
+/* FIX 3: restore solid fills for header buttons */
+.btn-amber{background:var(–amber);color:#fff;border:none;}
 .btn-amber:active{background:var(–amber2);}
-.btn-green{background:var(–green);color:#fff;}
+.btn-green{background:var(–green);color:#fff;border:none;}
 .btn-green:active{opacity:.85;}
-.btn-purple{background:var(–purple);color:#fff;}
+.btn-purple{background:var(–purple);color:#fff;border:none;}
 .btn-purple:active{opacity:.85;}
 .btn-outline{background:var(–white);color:var(–ink2);border:1.5px solid var(–border2);}
 .btn-outline:active{background:var(–surf2);}
 .btn-ghost{background:var(–surf2);color:var(–ink2);border:1px solid var(–border);}
 .btn-ghost:active{background:var(–surf3);}
-.btn-sm{padding:7px 12px;font-size:.76rem;}
+.btn-sm{padding:7px 11px;font-size:.76rem;}
 .btn-xs{padding:5px 9px;font-size:.7rem;}
 
 /* ── SIDEBAR OVERLAY ── */
@@ -88,13 +78,9 @@ overflow-y:auto;overflow-x:hidden;
 .sidebar.collapsed{width:54px;}
 .sidebar.collapsed .s-lbl,.sidebar.collapsed .s-txt,.sidebar.collapsed .s-bdg{opacity:0;pointer-events:none;width:0;}
 .sidebar.collapsed .s-item{justify-content:center;padding:10px 0;}
-@media(max-width:767px){.sidebar{transform:translateX(-100%);}  .sidebar.mob-open{transform:translateX(0);}}
+@media(max-width:767px){.sidebar{transform:translateX(-100%);} .sidebar.mob-open{transform:translateX(0);}}
 .s-lbl{font-size:.58rem;font-weight:700;color:var(–ink3);text-transform:uppercase;letter-spacing:1.6px;padding:10px 10px 4px;white-space:nowrap;}
-.s-item{
-display:flex;align-items:center;gap:9px;padding:9px 11px;
-border-radius:var(–r3);cursor:pointer;font-size:.84rem;font-weight:500;
-color:var(–ink2);transition:.15s;white-space:nowrap;position:relative;
-}
+.s-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:var(–r3);cursor:pointer;font-size:.84rem;font-weight:500;color:var(–ink2);transition:.15s;white-space:nowrap;position:relative;}
 .s-item:hover,.s-item:active{background:var(–surf2);color:var(–ink);}
 .s-item.active{background:var(–amber);color:#fff;font-weight:600;}
 .s-item.active:hover{background:var(–amber2);}
@@ -104,10 +90,7 @@ color:var(–ink2);transition:.15s;white-space:nowrap;position:relative;
 .s-bdg-n{background:var(–surf2);color:var(–ink3);border:1px solid var(–border);}
 .s-bdg-g{background:var(–green-bg);color:var(–green);border:1px solid var(–green-border);}
 .s-bdg-p{background:var(–purple-bg);color:var(–purple);border:1px solid var(–purple-border);}
-.sidebar.collapsed .s-item:hover::after{
-content:attr(data-tip);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);
-background:var(–ink);color:#fff;font-size:.76rem;padding:5px 10px;border-radius:6px;white-space:nowrap;z-index:500;
-}
+.sidebar.collapsed .s-item:hover::after{content:attr(data-tip);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:var(–ink);color:#fff;font-size:.76rem;padding:5px 10px;border-radius:6px;white-space:nowrap;z-index:500;}
 .s-div{height:1px;background:var(–border);margin:5px 4px;}
 .s-store-filter{display:flex;align-items:center;gap:9px;padding:7px 11px;border-radius:var(–r3);cursor:pointer;font-size:.82rem;color:var(–ink2);transition:.15s;}
 .s-store-filter:hover{background:var(–surf2);color:var(–ink);}
@@ -118,110 +101,98 @@ background:var(–ink);color:#fff;font-size:.76rem;padding:5px 10px;border-radiu
 .s-push.collapsed{width:54px;min-width:54px;}
 @media(max-width:767px){.s-push{display:none;}}
 .app{display:flex;margin-top:var(–hdr);height:calc(100vh - var(–hdr));}
+/* FIX 4: account for bottom nav height so content never hides behind it */
 @media(max-width:767px){.app{height:calc(100vh - var(–hdr) - var(–nav));}}
 .main{flex:1;overflow-y:auto;overflow-x:hidden;min-width:0;}
-.page{display:none;padding:20px 16px 36px;max-width:660px;margin:0 auto;animation:fadeUp .2s ease both;}
+.page{display:none;padding:16px 14px 40px;max-width:660px;margin:0 auto;animation:fadeUp .2s ease both;}
 .page.active{display:block;}
-@media(min-width:768px){.page{padding:24px 24px 36px;}}
+@media(min-width:768px){.page{padding:24px 24px 40px;}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── BOTTOM NAV ── */
+/* FIX 5: taller, properly z-indexed nav, icons don’t clip */
 .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:var(–nav);background:var(–white);border-top:1px solid var(–border);z-index:400;}
-.mnav{display:grid;grid-template-columns:repeat(4,1fr);height:100%;}
-.mni{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:var(–ink3);cursor:pointer;transition:.15s;padding:4px;}
+.mnav{display:grid;height:100%;}
+.mni{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:none;color:var(–ink3);cursor:pointer;transition:.15s;padding:6px 2px;}
 .mni.active{color:var(–amber);}
-.mni .ni{font-size:1.3rem;line-height:1;}
-.mni .nl{font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.mni .ni{font-size:1.25rem;line-height:1;}
+.mni .nl{font-size:.56rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
 @media(max-width:767px){.mob-nav{display:block;}}
 
 /* ── PAGE HEADER ── */
-.pg-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:10px;}
-.pg-title{font-size:1.4rem;font-weight:800;color:var(–ink);letter-spacing:-.5px;}
-.pg-sub{font-size:.74rem;color:var(–ink3);margin-top:2px;font-weight:400;}
+.pg-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:10px;}
+.pg-title{font-size:1.35rem;font-weight:800;color:var(–ink);letter-spacing:-.5px;}
+.pg-sub{font-size:.72rem;color:var(–ink3);margin-top:2px;font-weight:400;}
 
 /* ── STAT STRIP ── */
-.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
-@media(min-width:480px){.stat-row{grid-template-columns:repeat(4,1fr);}}
-.stat{background:var(–card);border:1px solid var(–border);border-radius:var(–r);padding:14px 15px;}
-.stat-lbl{font-size:.62rem;font-weight:600;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;}
-.stat-val{font-size:1.7rem;font-weight:800;color:var(–ink);line-height:1;margin-top:5px;letter-spacing:-.5px;}
-.stat-note{font-size:.68rem;margin-top:3px;color:var(–ink3);}
+/* FIX 6: 2-col on mobile (phones), 4-col at 420px+ */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px;}
+@media(min-width:420px){.stat-row{grid-template-columns:repeat(4,1fr);}}
+.stat{background:var(–card);border:1px solid var(–border);border-radius:var(–r);padding:13px 13px;}
+.stat-lbl{font-size:.6rem;font-weight:600;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;}
+.stat-val{font-size:1.6rem;font-weight:800;color:var(–ink);line-height:1;margin-top:4px;letter-spacing:-.5px;}
+.stat-note{font-size:.67rem;margin-top:3px;color:var(–ink3);}
 .stat-note.g{color:var(–green);font-weight:500;}
 .stat-note.p{color:var(–purple);font-weight:500;}
 
 /* ── SECTION ── */
-.sec{background:var(–card);border:1px solid var(–border);border-radius:var(–r);padding:16px;margin-bottom:14px;}
+.sec{background:var(–card);border:1px solid var(–border);border-radius:var(–r);padding:15px;margin-bottom:12px;}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:8px;flex-wrap:wrap;}
-.sec-title{font-size:.9rem;font-weight:700;color:var(–ink);display:flex;align-items:center;gap:7px;}
-.badge{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:2px 8px;border-radius:20px;}
+.sec-title{font-size:.88rem;font-weight:700;color:var(–ink);display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.badge{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:2px 8px;border-radius:20px;}
 .badge-amber{background:#fef3c7;color:#92400e;border:1px solid #fde68a;}
 .badge-green{background:var(–green-bg);color:var(–green);border:1px solid var(–green-border);}
 .badge-purple{background:var(–purple-bg);color:var(–purple);border:1px solid var(–purple-border);}
 .badge-red{background:var(–red-bg);color:var(–red);border:1px solid #fecaca;}
 
 /* ── SALE ALERT BANNER ── */
-.sale-banner{background:linear-gradient(135deg,#f5f3ff,#f0fdf4);border:1.5px solid var(–purple-border);border-radius:var(–r);padding:14px 16px;margin-bottom:14px;}
-.sale-banner-ttl{font-size:.85rem;font-weight:700;color:var(–purple);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.sale-banner{background:linear-gradient(135deg,#f5f3ff,#f0fdf4);border:1.5px solid var(–purple-border);border-radius:var(–r);padding:13px 14px;margin-bottom:12px;}
+.sale-banner-ttl{font-size:.83rem;font-weight:700;color:var(–purple);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 
 /* ── GROCERY ITEM CARD ── */
 .g-list{display:flex;flex-direction:column;gap:8px;}
-.g-card{
-background:var(–card);border:1.5px solid var(–border);
-border-radius:var(–r);padding:14px 15px;
-display:flex;align-items:center;gap:13px;
-cursor:pointer;transition:border-color .15s,box-shadow .15s;
--webkit-tap-highlight-color:transparent;
-}
+.g-card{background:var(–card);border:1.5px solid var(–border);border-radius:var(–r);padding:13px 13px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent;position:relative;}
 .g-card:hover{border-color:var(–border2);box-shadow:0 2px 12px rgba(0,0,0,.06);}
 .g-card:active{background:var(–surf2);}
 .g-card.has-deal{border-color:var(–purple-border);background:linear-gradient(to right,var(–purple-bg),var(–white));}
 .g-card.has-deal:hover{border-color:#c4b5fd;}
-.g-icon{
-width:46px;height:46px;border-radius:13px;
-background:var(–surf2);
-display:flex;align-items:center;justify-content:center;
-font-size:1.35rem;flex-shrink:0;
-}
+.g-icon{width:42px;height:42px;border-radius:12px;background:var(–surf2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;}
 .g-body{flex:1;min-width:0;}
-.g-name{font-size:.93rem;font-weight:700;color:var(–ink);margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.g-meta{font-size:.72rem;color:var(–ink3);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
-.g-deal-line{font-size:.7rem;color:var(–purple);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:4px;}
+.g-name{font-size:.9rem;font-weight:700;color:var(–ink);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.g-meta{font-size:.7rem;color:var(–ink3);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.g-deal-line{font-size:.68rem;color:var(–purple);font-weight:600;margin-top:3px;display:flex;align-items:center;gap:4px;}
 .g-right{text-align:right;flex-shrink:0;}
-.g-price{font-size:1.05rem;font-weight:800;color:var(–ink);letter-spacing:-.3px;}
-.g-store-lbl{font-size:.67rem;color:var(–ink3);margin-top:2px;}
+.g-price{font-size:1rem;font-weight:800;color:var(–ink);letter-spacing:-.3px;}
+.g-store-lbl{font-size:.65rem;color:var(–ink3);margin-top:2px;}
 .g-caret{color:var(–ink3);margin-left:4px;font-size:.8rem;flex-shrink:0;}
 .cdot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
-.on-sale-pill{background:var(–purple-bg);color:var(–purple);font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:20px;border:1px solid var(–purple-border);}
-.store-count-pill{background:var(–surf2);color:var(–ink3);font-size:.62rem;font-weight:600;padding:2px 7px;border-radius:20px;border:1px solid var(–border);}
+.on-sale-pill{background:var(–purple-bg);color:var(–purple);font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:20px;border:1px solid var(–purple-border);}
+.store-count-pill{background:var(–surf2);color:var(–ink3);font-size:.6rem;font-weight:600;padding:2px 6px;border-radius:20px;border:1px solid var(–border);}
 
 /* ── DEAL ROWS (banner) ── */
 .deal-rows{display:flex;flex-direction:column;gap:7px;}
-.deal-row{
-background:var(–white);border:1px solid var(–border);
-border-radius:var(–r2);padding:11px 13px;
-display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s;
-}
+.deal-row{background:var(–white);border:1px solid var(–border);border-radius:var(–r2);padding:11px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s;}
 .deal-row:active{background:var(–surf2);}
 .dr-info{flex:1;min-width:0;}
-.dr-name{font-size:.85rem;font-weight:700;color:var(–ink);margin-bottom:2px;}
-.dr-meta{font-size:.7rem;color:var(–ink3);}
+.dr-name{font-size:.84rem;font-weight:700;color:var(–ink);margin-bottom:2px;}
+.dr-meta{font-size:.68rem;color:var(–ink3);}
 .dr-price{text-align:right;flex-shrink:0;}
-.dr-now{font-size:1rem;font-weight:800;color:var(–green);}
-.dr-was{font-size:.67rem;color:var(–ink3);text-decoration:line-through;margin-top:1px;}
+.dr-now{font-size:.98rem;font-weight:800;color:var(–green);}
+.dr-was{font-size:.65rem;color:var(–ink3);text-decoration:line-through;margin-top:1px;}
 .exp-bar{height:3px;border-radius:2px;background:var(–surf3);margin-top:8px;overflow:hidden;}
 .exp-fill{height:100%;border-radius:2px;}
 
 /* ── DEALS PAGE ── */
-.deal-item{background:var(–card);border:1.5px solid var(–border);border-radius:var(–r);padding:14px 15px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;}
+.deal-item{background:var(–card);border:1.5px solid var(–border);border-radius:var(–r);padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:11px;}
 .deal-item.active-deal{border-color:var(–green-border);}
 .deal-item.expired-deal{opacity:.5;}
 .di-body{flex:1;min-width:0;}
-.di-name{font-size:.9rem;font-weight:700;color:var(–ink);margin-bottom:4px;}
-.di-meta{font-size:.71rem;color:var(–ink3);display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px;}
+.di-name{font-size:.88rem;font-weight:700;color:var(–ink);margin-bottom:4px;}
+.di-meta{font-size:.7rem;color:var(–ink3);display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px;}
 .di-right{text-align:right;flex-shrink:0;}
-.di-price{font-size:1.05rem;font-weight:800;color:var(–green);}
-.di-orig{font-size:.7rem;color:var(–ink3);text-decoration:line-through;margin-top:2px;}
-.status-pill{font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:20px;}
+.di-price{font-size:1rem;font-weight:800;color:var(–green);}
+.di-orig{font-size:.68rem;color:var(–ink3);text-decoration:line-through;margin-top:2px;}
+.status-pill{font-size:.6rem;font-weight:700;padding:3px 8px;border-radius:20px;}
 .sp-active{background:var(–green-bg);color:var(–green);border:1px solid var(–green-border);}
 .sp-expiring{background:#fef3c7;color:#92400e;border:1px solid #fde68a;}
 .sp-expired{background:var(–surf2);color:var(–ink3);border:1px solid var(–border);}
@@ -230,140 +201,113 @@ display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s;
 .feed-card{background:var(–surf2);border:1px solid var(–border);border-radius:var(–r2);padding:12px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;}
 .feed-info{flex:1;min-width:0;}
 .feed-name{font-size:.86rem;font-weight:600;color:var(–ink);margin-bottom:2px;}
-.feed-url{font-size:.71rem;color:var(–ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.feed-url{font-size:.7rem;color:var(–ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;}
 
 /* ── RECEIPT CARDS ── */
-.rcpt-card{background:var(–surf2);border:1px solid var(–border);border-radius:var(–r2);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:11px;}
-.rcpt-store{font-size:.87rem;font-weight:600;color:var(–ink);}
-.rcpt-meta{font-size:.7rem;color:var(–ink3);margin-top:1px;}
+.rcpt-card{background:var(–surf2);border:1px solid var(–border);border-radius:var(–r2);padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:11px;}
+.rcpt-store{font-size:.86rem;font-weight:600;color:var(–ink);}
+.rcpt-meta{font-size:.68rem;color:var(–ink3);margin-top:1px;}
 
 /* ── STORES ── */
-.stores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:9px;}
-.store-card{background:var(–card);border:1.5px solid var(–border);border-radius:var(–r);padding:14px;overflow:hidden;position:relative;}
-.store-card-top{height:4px;border-radius:3px;margin-bottom:11px;}
-.store-card-name{font-size:.88rem;font-weight:700;color:var(–ink);margin-bottom:3px;}
-.store-card-meta{font-size:.7rem;color:var(–ink3);margin-bottom:9px;}
+.stores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;}
+.store-card{background:var(–card);border:1.5px solid var(–border);border-radius:var(–r);padding:13px;overflow:hidden;position:relative;}
+.store-card-top{height:4px;border-radius:3px;margin-bottom:10px;}
+.store-card-name{font-size:.86rem;font-weight:700;color:var(–ink);margin-bottom:3px;}
+.store-card-meta{font-size:.68rem;color:var(–ink3);margin-bottom:8px;}
 
 /* ── PRICE COMPARE SHEET ── */
-.sheet-ov{
-display:none;position:fixed;inset:0;
-background:rgba(0,0,0,.4);z-index:600;
-opacity:0;transition:opacity .25s;
-align-items:flex-end;justify-content:center;
-}
+.sheet-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:600;opacity:0;transition:opacity .25s;align-items:flex-end;justify-content:center;}
 .sheet-ov.on{display:flex;opacity:1;}
 @media(min-width:600px){.sheet-ov{align-items:center;}}
-.sheet{
-background:var(–white);
-border-radius:24px 24px 0 0;
-width:100%;max-width:520px;
-max-height:88vh;overflow-y:auto;
-transform:translateY(60px);opacity:0;
-transition:transform .3s cubic-bezier(.2,.9,.4,1),opacity .3s;
-}
+.sheet{background:var(–white);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;transform:translateY(60px);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.4,1),opacity .3s;}
 .sheet-ov.on .sheet{transform:translateY(0);opacity:1;}
 @media(min-width:600px){.sheet{border-radius:20px;max-height:84vh;}}
 .sheet-handle{width:40px;height:4px;background:var(–border2);border-radius:2px;margin:14px auto 0;}
-.sheet-head{padding:16px 20px 14px;border-bottom:1px solid var(–border);}
-.sheet-emoji{font-size:2rem;margin-bottom:6px;}
-.sheet-title{font-size:1.15rem;font-weight:800;color:var(–ink);letter-spacing:-.4px;}
-.sheet-sub{font-size:.74rem;color:var(–ink3);margin-top:3px;}
-.sheet-body{padding:16px 18px 28px;}
+.sheet-head{padding:15px 18px 13px;border-bottom:1px solid var(–border);}
+.sheet-emoji{font-size:1.9rem;margin-bottom:5px;}
+.sheet-title{font-size:1.1rem;font-weight:800;color:var(–ink);letter-spacing:-.4px;}
+.sheet-sub{font-size:.72rem;color:var(–ink3);margin-top:3px;}
+.sheet-body{padding:14px 16px 28px;}
 
 /* price rows inside sheet */
-.cmp-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.cmp-row{
-display:flex;align-items:center;gap:12px;
-background:var(–surf2);border:1.5px solid var(–border);
-border-radius:var(–r2);padding:13px 14px;
-transition:.15s;
-}
+.cmp-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.cmp-row{display:flex;align-items:center;gap:11px;background:var(–surf2);border:1.5px solid var(–border);border-radius:var(–r2);padding:12px 13px;transition:.15s;}
 .cmp-row.best{border-color:var(–green-border);background:var(–green-bg);}
 .cmp-row.on-sale{border-color:var(–purple-border);background:var(–purple-bg);}
-.cr-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.cr-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 .cr-info{flex:1;min-width:0;}
-.cr-store{font-size:.88rem;font-weight:700;color:var(–ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cr-detail{font-size:.7rem;color:var(–ink3);margin-top:1px;}
+.cr-store{font-size:.86rem;font-weight:700;color:var(–ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cr-detail{font-size:.68rem;color:var(–ink3);margin-top:1px;}
 .cr-tags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
-.cr-tag{font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:20px;}
+.cr-tag{font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:20px;}
 .cr-tag-best{background:var(–green-bg);color:var(–green);border:1px solid var(–green-border);}
 .cr-tag-sale{background:var(–purple-bg);color:var(–purple);border:1px solid var(–purple-border);}
 .cr-tag-expiring{background:#fef3c7;color:#92400e;border:1px solid #fde68a;}
 .cr-right{text-align:right;flex-shrink:0;}
-.cr-price{font-size:1.05rem;font-weight:800;letter-spacing:-.3px;}
+.cr-price{font-size:1rem;font-weight:800;letter-spacing:-.3px;}
 .cr-price-best{color:var(–green);}
 .cr-price-sale{color:var(–purple);}
 .cr-price-normal{color:var(–ink);}
-.cr-date{font-size:.66rem;color:var(–ink3);margin-top:2px;}
-.cr-source{font-size:.63rem;color:var(–ink3);margin-top:1px;}
+.cr-date{font-size:.64rem;color:var(–ink3);margin-top:2px;}
+.cr-source{font-size:.61rem;color:var(–ink3);margin-top:1px;}
 
 /* savings box */
-.save-row{
-background:var(–green-bg);border:1.5px solid var(–green-border);
-border-radius:var(–r2);padding:13px 14px;
-display:flex;align-items:center;gap:11px;margin-bottom:16px;
-}
-.save-icon{font-size:1.6rem;}
+.save-row{background:var(–green-bg);border:1.5px solid var(–green-border);border-radius:var(–r2);padding:12px 13px;display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.save-icon{font-size:1.5rem;}
 .save-body{flex:1;}
-.save-msg{font-size:.82rem;font-weight:600;color:var(–green);}
-.save-amt{font-size:1.2rem;font-weight:800;color:var(–green);margin-top:1px;letter-spacing:-.3px;}
-.save-detail{font-size:.68rem;color:var(–green);opacity:.75;margin-top:1px;}
+.save-msg{font-size:.8rem;font-weight:600;color:var(–green);}
+.save-amt{font-size:1.15rem;font-weight:800;color:var(–green);margin-top:1px;letter-spacing:-.3px;}
+.save-detail{font-size:.66rem;color:var(–green);opacity:.75;margin-top:1px;}
 
 /* history section */
-.hist-title{font-size:.72rem;font-weight:700;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
-.hist-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(–border);}
+.hist-title{font-size:.7rem;font-weight:700;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(–border);}
 .hist-row:last-child{border-bottom:none;}
 .hist-l{display:flex;align-items:center;gap:9px;}
-.hist-store{font-size:.82rem;font-weight:500;color:var(–ink);}
-.hist-src{font-size:.67rem;color:var(–ink3);}
-.hist-r{display:flex;align-items:center;gap:12px;}
-.hist-price{font-size:.88rem;font-weight:700;color:var(–ink);}
-.hist-date{font-size:.67rem;color:var(–ink3);}
-.del-btn{background:none;border:none;color:var(–ink3);cursor:pointer;font-size:.8rem;padding:3px 5px;border-radius:4px;line-height:1;}
+.hist-store{font-size:.8rem;font-weight:500;color:var(–ink);}
+.hist-src{font-size:.65rem;color:var(–ink3);}
+.hist-r{display:flex;align-items:center;gap:10px;}
+.hist-price{font-size:.86rem;font-weight:700;color:var(–ink);}
+.hist-date{font-size:.65rem;color:var(–ink3);}
+.del-btn{background:none;border:none;color:var(–ink3);cursor:pointer;font-size:.78rem;padding:3px 5px;border-radius:4px;line-height:1;}
 .del-btn:hover{color:var(–red);background:var(–red-bg);}
 
 /* ── FORMS ── */
-.form-lbl{font-size:.68rem;font-weight:700;color:var(–ink2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;display:block;}
+.form-lbl{font-size:.66rem;font-weight:700;color:var(–ink2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;display:block;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .form-grp{display:flex;flex-direction:column;margin-bottom:10px;}
-input,select,textarea{
-background:var(–surf2);border:1.5px solid var(–border2);
-border-radius:var(–r3);color:var(–ink);
-font-family:‘Inter’,sans-serif;font-size:.875rem;
-padding:10px 12px;outline:none;
-transition:border-color .15s;width:100%;
-}
+input,select,textarea{background:var(–surf2);border:1.5px solid var(–border2);border-radius:var(–r3);color:var(–ink);font-family:‘Inter’,sans-serif;font-size:.875rem;padding:10px 12px;outline:none;transition:border-color .15s;width:100%;}
 input:focus,select:focus,textarea:focus{border-color:var(–amber);background:var(–white);}
 textarea{resize:vertical;min-height:72px;}
 input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
-.form-hint{font-size:.71rem;color:var(–ink3);margin-top:5px;line-height:1.55;}
+.form-hint{font-size:.7rem;color:var(–ink3);margin-top:5px;line-height:1.55;}
 
 /* ── TABS ── */
 .tab-bar{display:flex;gap:3px;border-bottom:1.5px solid var(–border);margin-bottom:14px;}
-.tab-btn{padding:8px 13px;font-size:.8rem;font-weight:600;cursor:pointer;color:var(–ink2);border-radius:8px 8px 0 0;border:1.5px solid transparent;border-bottom:none;background:transparent;transition:.15s;}
+.tab-btn{padding:8px 12px;font-size:.78rem;font-weight:600;cursor:pointer;color:var(–ink2);border-radius:8px 8px 0 0;border:1.5px solid transparent;border-bottom:none;background:transparent;transition:.15s;}
 .tab-btn.active{color:var(–purple);background:var(–purple-bg);border-color:var(–purple-border);border-bottom-color:var(–purple-bg);margin-bottom:-1.5px;}
 
 /* ── AI SPINNER ── */
-.ai-row{display:none;align-items:center;gap:9px;padding:10px 0;font-size:.8rem;color:var(–ink3);}
+.ai-row{display:none;align-items:center;gap:9px;padding:10px 0;font-size:.78rem;color:var(–ink3);}
 .ai-row.on{display:flex;}
 .spinner{width:16px;height:16px;border:2.5px solid var(–border2);border-top-color:var(–purple);border-radius:50%;animation:spin .65s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── PARSED LISTS ── */
 .parsed-list{background:var(–surf2);border:1.5px solid var(–border);border-radius:var(–r2);padding:10px;margin-top:8px;max-height:170px;overflow-y:auto;display:none;}
-.p-row{display:flex;align-items:center;gap:8px;padding:6px 2px;border-bottom:1px solid var(–border);font-size:.8rem;}
+.p-row{display:flex;align-items:center;gap:8px;padding:6px 2px;border-bottom:1px solid var(–border);font-size:.78rem;}
 .p-row:last-child{border-bottom:none;}
 .p-row input[type=“checkbox”]{width:15px;height:15px;accent-color:var(–green);cursor:pointer;flex-shrink:0;}
 .p-name{flex:1;color:var(–ink);}
-.p-price{font-weight:700;color:var(–amber);font-size:.82rem;}
+.p-price{font-weight:700;color:var(–amber);font-size:.8rem;}
 .match-list{background:var(–surf2);border:1.5px solid var(–purple-border);border-radius:var(–r2);padding:10px;margin-top:8px;max-height:190px;overflow-y:auto;}
-.m-row{display:flex;align-items:center;gap:8px;padding:6px 2px;border-bottom:1px solid var(–border);font-size:.8rem;}
+.m-row{display:flex;align-items:center;gap:8px;padding:6px 2px;border-bottom:1px solid var(–border);font-size:.78rem;}
 .m-row:last-child{border-bottom:none;}
 .m-row input[type=“checkbox”]{width:15px;height:15px;accent-color:var(–purple);cursor:pointer;flex-shrink:0;}
 .m-name{flex:1;color:var(–ink);}
-.m-orig{color:var(–ink3);text-decoration:line-through;font-size:.72rem;flex-shrink:0;}
-.m-price{font-weight:700;color:var(–green);font-size:.84rem;flex-shrink:0;}
-.m-section-lbl{font-size:.67rem;font-weight:700;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;padding:8px 2px 4px;}
+.m-orig{color:var(–ink3);text-decoration:line-through;font-size:.7rem;flex-shrink:0;}
+.m-price{font-weight:700;color:var(–green);font-size:.82rem;flex-shrink:0;}
+.m-section-lbl{font-size:.65rem;font-weight:700;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;padding:8px 2px 4px;}
 
 /* ── MODAL ── */
 .modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:700;align-items:flex-end;justify-content:center;}
@@ -375,31 +319,31 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
 .modal-handle{width:40px;height:4px;background:var(–border2);border-radius:2px;margin:14px auto 0;}
 @media(min-width:600px){.modal-handle{display:none;}}
-.modal-inner{padding:18px 20px 28px;}
-.modal-title{font-size:1.1rem;font-weight:800;color:var(–ink);margin-bottom:15px;letter-spacing:-.3px;}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:15px;flex-wrap:wrap;}
+.modal-inner{padding:16px 18px 28px;}
+.modal-title{font-size:1.08rem;font-weight:800;color:var(–ink);margin-bottom:14px;letter-spacing:-.3px;}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap;}
 @media(max-width:400px){.modal-actions{flex-direction:column-reverse;}.modal-actions .btn{width:100%;justify-content:center;}}
 
 /* ── RECEIPT DROP ── */
-.r-drop{background:var(–surf2);border:2px dashed var(–border2);border-radius:var(–r);padding:20px;text-align:center;cursor:pointer;margin-bottom:13px;transition:.2s;}
+.r-drop{background:var(–surf2);border:2px dashed var(–border2);border-radius:var(–r);padding:18px;text-align:center;cursor:pointer;margin-bottom:12px;transition:.2s;}
 .r-drop:hover,.r-drop.over{border-color:var(–amber);}
-.r-drop-ic{font-size:1.8rem;margin-bottom:5px;}
-.r-drop p{font-size:.8rem;color:var(–ink3);}
+.r-drop-ic{font-size:1.7rem;margin-bottom:4px;}
+.r-drop p{font-size:.78rem;color:var(–ink3);}
 .r-drop strong{color:var(–ink);}
 
 /* ── EMPTY STATE ── */
-.empty{text-align:center;padding:44px 16px;}
-.empty-ic{font-size:2.8rem;margin-bottom:10px;}
-.empty p{font-size:.84rem;color:var(–ink3);line-height:1.6;margin-bottom:16px;}
+.empty{text-align:center;padding:40px 16px;}
+.empty-ic{font-size:2.6rem;margin-bottom:10px;}
+.empty p{font-size:.82rem;color:var(–ink3);line-height:1.6;margin-bottom:14px;}
 .empty-acts{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
 
-/* delete btn always visible on touch */
 @media(hover:none){.g-del-btn{opacity:1 !important;}}
+
 /* ── PRICE TABLE ── */
-.pt-table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:360px;}
-.pt-table th{background:var(–surf2);color:var(–ink3);font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:10px 12px;text-align:left;position:sticky;top:0;z-index:2;border-bottom:1.5px solid var(–border2);white-space:nowrap;}
+.pt-table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:360px;}
+.pt-table th{background:var(–surf2);color:var(–ink3);font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:9px 11px;text-align:left;position:sticky;top:0;z-index:2;border-bottom:1.5px solid var(–border2);white-space:nowrap;}
 .pt-table th:first-child{min-width:140px;position:sticky;left:0;z-index:3;background:var(–surf2);}
-.pt-table td{padding:11px 12px;border-bottom:1px solid var(–border);vertical-align:middle;white-space:nowrap;}
+.pt-table td{padding:10px 11px;border-bottom:1px solid var(–border);vertical-align:middle;white-space:nowrap;}
 .pt-table td:first-child{font-weight:600;color:var(–ink);position:sticky;left:0;background:var(–white);z-index:1;border-right:1px solid var(–border);}
 .pt-table tr:hover td{background:#faf9f7;}
 .pt-table tr:hover td:first-child{background:#f5f4f0;}
@@ -407,17 +351,18 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
 .pt-cell-price{font-weight:700;color:var(–ink);}
 .pt-cell-best{color:var(–green);font-weight:800;}
 .pt-cell-sale{color:var(–purple);font-weight:700;}
-.pt-cell-qty{display:block;font-size:.66rem;color:var(–ink3);font-weight:400;margin-top:1px;}
-.pt-cell-deal{display:block;font-size:.62rem;color:var(–purple);font-weight:600;margin-top:1px;}
-.pt-cell-empty{color:var(–ink3);font-size:.78rem;}
+.pt-cell-qty{display:block;font-size:.64rem;color:var(–ink3);font-weight:400;margin-top:1px;}
+.pt-cell-deal{display:block;font-size:.6rem;color:var(–purple);font-weight:600;margin-top:1px;}
+.pt-cell-empty{color:var(–ink3);font-size:.76rem;}
 .pt-name-wrap{display:flex;align-items:center;gap:6px;}
-.pt-emoji{font-size:1rem;flex-shrink:0;}
-.pt-del-btn{margin-left:auto;background:none;border:none;color:var(–ink3);cursor:pointer;font-size:.75rem;padding:2px 5px;border-radius:4px;line-height:1;opacity:0;}
+.pt-emoji{font-size:.95rem;flex-shrink:0;}
+.pt-del-btn{margin-left:auto;background:none;border:none;color:var(–ink3);cursor:pointer;font-size:.73rem;padding:2px 5px;border-radius:4px;line-height:1;opacity:0;}
 .pt-table tr:hover .pt-del-btn{opacity:1;}
 .pt-del-btn:hover{color:var(–red);background:var(–red-bg);}
-/* ── END PRICE TABLE ── */
-.toast{position:fixed;bottom:20px;right:16px;background:var(–ink);color:#fff;border-radius:var(–r2);padding:11px 16px;font-size:.8rem;font-weight:500;z-index:9999;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.2);}
-@media(max-width:767px){.toast{bottom:calc(var(–nav)+10px);right:10px;left:10px;max-width:none;text-align:center;}}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;right:16px;background:var(–ink);color:#fff;border-radius:var(–r2);padding:10px 15px;font-size:.78rem;font-weight:500;z-index:9999;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+@media(max-width:767px){.toast{bottom:calc(var(–nav) + 8px);right:10px;left:10px;max-width:none;text-align:center;}}
 .toast.on{opacity:1;transform:translateY(0);}
 .toast.warn{background:#92400e;}
 .toast.purple{background:var(–purple);}
@@ -450,10 +395,10 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
 
 <nav class="sidebar" id="sidebar">
   <div class="s-lbl">Menu</div>
-  <div class="s-item active" id="sn-home"     data-tip="Home"     onclick="goPage('home',this)">    <span class="s-icon">🏠</span><span class="s-txt">Home</span></div>
-  <div class="s-item"        id="sn-grocery"  data-tip="My List"  onclick="goPage('grocery',this)"> <span class="s-icon">🛒</span><span class="s-txt">My Grocery List</span><span class="s-bdg s-bdg-g" id="sb-items">0</span></div>
-  <div class="s-item"        id="sn-deals"    data-tip="Deals"    onclick="goPage('deals',this)">   <span class="s-icon">🏷️</span><span class="s-txt">Weekly Deals</span><span class="s-bdg s-bdg-p" id="sb-deals">0</span></div>
-  <div class="s-item"        id="sn-receipts"   data-tip="Receipts"    onclick="goPage('receipts',this)">  <span class="s-icon">🧾</span><span class="s-txt">Receipts</span><span class="s-bdg s-bdg-n" id="sb-receipts">0</span></div>
+  <div class="s-item active" id="sn-home"       data-tip="Home"        onclick="goPage('home',this)">    <span class="s-icon">🏠</span><span class="s-txt">Home</span></div>
+  <div class="s-item"        id="sn-grocery"    data-tip="My List"     onclick="goPage('grocery',this)"> <span class="s-icon">🛒</span><span class="s-txt">My Grocery List</span><span class="s-bdg s-bdg-g" id="sb-items">0</span></div>
+  <div class="s-item"        id="sn-deals"      data-tip="Deals"       onclick="goPage('deals',this)">   <span class="s-icon">🏷️</span><span class="s-txt">Weekly Deals</span><span class="s-bdg s-bdg-p" id="sb-deals">0</span></div>
+  <div class="s-item"        id="sn-receipts"   data-tip="Receipts"    onclick="goPage('receipts',this)"><span class="s-icon">🧾</span><span class="s-txt">Receipts</span><span class="s-bdg s-bdg-n" id="sb-receipts">0</span></div>
   <div class="s-item"        id="sn-pricetable" data-tip="Price Table" onclick="goPage('pricetable',this)"><span class="s-icon">📊</span><span class="s-txt">Last Price Table</span></div>
   <div class="s-div"></div>
   <div class="s-lbl">Filter by Store</div>
@@ -483,22 +428,19 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
   <div class="stat-row">
     <div class="stat"><div class="stat-lbl">Items</div><div class="stat-val" id="st-items">0</div><div class="stat-note">in your list</div></div>
     <div class="stat"><div class="stat-lbl">Active Deals</div><div class="stat-val" id="st-deals">0</div><div class="stat-note p" id="st-deals-note">this week</div></div>
-    <div class="stat"><div class="stat-lbl">Best Store</div><div class="stat-val" style="font-size:.95rem;padding-top:7px;letter-spacing:-.2px" id="st-best">—</div><div class="stat-note g" id="st-best-note">—</div></div>
+    <div class="stat"><div class="stat-lbl">Best Store</div><div class="stat-val" style="font-size:.9rem;padding-top:6px;letter-spacing:-.2px" id="st-best">—</div><div class="stat-note g" id="st-best-note">—</div></div>
     <div class="stat"><div class="stat-lbl">You Can Save</div><div class="stat-val" id="st-save">$0</div><div class="stat-note g">shopping smart</div></div>
   </div>
-
-  <!-- active deals on your list -->
   <div id="sale-banner-wrap" style="display:none">
     <div class="sale-banner">
       <div class="sale-banner-ttl">🏷️ Your items are on sale this week!</div>
       <div class="deal-rows" id="sale-banner-rows"></div>
     </div>
   </div>
-
-  <!-- grocery list preview -->
   <div class="sec">
     <div class="sec-hdr">
       <div class="sec-title">🛒 Grocery List <span class="badge badge-amber">TAP TO COMPARE PRICES</span></div>
+      <!-- FIX 7: See all button is right-aligned inside sec-hdr flex -->
       <button class="btn btn-ghost btn-xs" onclick="goPage('grocery',null)">See all →</button>
     </div>
     <div id="home-list"></div>
@@ -512,13 +454,12 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
       <div class="pg-title">My Grocery List</div>
       <div class="pg-sub">Tap any item to compare prices across stores</div>
     </div>
-    <div style="display:flex;gap:7px">
+    <div style="display:flex;gap:7px;flex-shrink:0">
       <button class="btn btn-outline btn-sm" onclick="openReceiptModal()">🧾</button>
       <button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️</button>
     </div>
   </div>
-  <!-- store filter chips -->
-  <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:5px;margin-bottom:13px;-webkit-overflow-scrolling:touch" id="filter-chips"></div>
+  <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:5px;margin-bottom:12px;-webkit-overflow-scrolling:touch" id="filter-chips"></div>
   <div id="full-list"></div>
 </div>
 
@@ -531,18 +472,16 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
     </div>
     <button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️ Import</button>
   </div>
-
   <div class="sec">
     <div class="sec-hdr"><div class="sec-title">📡 Deal Sources</div></div>
     <div id="feed-list"></div>
-    <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
-      <input type="text" id="nf-url" placeholder="Paste weekly ad URL here…" style="flex:2;min-width:140px;font-size:.8rem"/>
-      <select id="nf-store" style="flex:1;min-width:110px;font-size:.8rem"></select>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <input type="text" id="nf-url" placeholder="Paste weekly ad URL here…" style="flex:2;min-width:140px;font-size:.78rem"/>
+      <select id="nf-store" style="flex:1;min-width:110px;font-size:.78rem"></select>
       <button class="btn btn-ghost btn-sm" onclick="addFeed()">+ Save</button>
     </div>
     <p class="form-hint">Paste your store's weekly ad URL here. Open it every Tuesday night to copy deal text into "Import Deals".</p>
   </div>
-
   <div class="sec">
     <div class="sec-hdr">
       <div class="sec-title">🏷️ All Deals <span class="badge badge-purple" id="exp-badge" style="display:none"></span></div>
@@ -632,7 +571,7 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
   </div>
 </nav>
 
-<!-- ═══════ PRICE COMPARE SHEET ═══════ -->
+<!-- PRICE COMPARE SHEET -->
 
 <div class="sheet-ov" id="sheet-ov">
   <div class="sheet" id="sheet">
@@ -640,13 +579,13 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
     <div class="sheet-head">
       <div class="sheet-emoji" id="sheet-emoji">🛒</div>
       <div class="sheet-title" id="sheet-title">Item</div>
-      <div class="sheet-sub"   id="sheet-sub"></div>
+      <div class="sheet-sub" id="sheet-sub"></div>
     </div>
     <div class="sheet-body" id="sheet-body"></div>
   </div>
 </div>
 
-<!-- ═══════ RECEIPT MODAL ═══════ -->
+<!-- RECEIPT MODAL -->
 
 <div class="modal-ov" id="receipt-modal">
   <div class="modal">
@@ -664,11 +603,11 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
         <textarea id="r-text" style="height:88px" placeholder="OROWEAT BREAD    NF  $3.99&#10;GG EGGS          NF  $2.59&#10;WHOLE MILK           $4.29"></textarea>
       </div>
       <div class="form-row">
-        <div class="form-grp"><label class="form-lbl">Store</label><div id="r-store-wrap"><select id="r-store"></select></div></div>
+        <div class="form-grp"><label class="form-lbl">Store</label><div id="r-store-wrap"></div></div>
         <div class="form-grp"><label class="form-lbl">Date</label><input type="date" id="r-date"/></div>
       </div>
       <div id="r-parsed" class="parsed-list"></div>
-      <div id="r-status" style="font-size:.74rem;color:var(--ink3);margin-top:5px;display:none"></div>
+      <div id="r-status" style="font-size:.72rem;color:var(--ink3);margin-top:5px;display:none"></div>
       <div class="modal-actions">
         <button class="btn btn-ghost btn-sm"   onclick="previewReceipt()">👁 Preview</button>
         <button class="btn btn-outline btn-sm" onclick="closeModal('receipt-modal')">Cancel</button>
@@ -678,7 +617,7 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
   </div>
 </div>
 
-<!-- ═══════ DEAL IMPORT MODAL ═══════ -->
+<!-- DEAL IMPORT MODAL -->
 
 <div class="modal-ov" id="deal-modal">
   <div class="modal" style="max-width:520px">
@@ -707,7 +646,7 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
     </div>
     <div class="ai-row" id="ai-row"><div class="spinner"></div>Reading the ad and matching your grocery list…</div>
     <div id="parse-preview" style="display:none">
-      <p style="font-size:.77rem;font-weight:700;color:var(--purple);margin-bottom:6px" id="parse-summary"></p>
+      <p style="font-size:.75rem;font-weight:700;color:var(--purple);margin-bottom:6px" id="parse-summary"></p>
       <div class="match-list" id="parse-list"></div>
       <p class="form-hint">Uncheck any items you don't want to save.</p>
     </div>
@@ -744,7 +683,7 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
   </div>
 </div>
 
-<!-- ═══════ EDIT STORE MODAL ═══════ -->
+<!-- EDIT STORE MODAL -->
 
 <div class="modal-ov" id="store-modal">
   <div class="modal" style="max-width:400px">
@@ -766,7 +705,6 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
 </div>
 
 <div class="toast" id="toast"></div>
-
 <script>
 // ─────────────────────────────────────────────
 //  DATA
@@ -781,321 +719,272 @@ let filterStore = null, sidebarExp = true, sidebarMob = false;
 const isMob = () => window.innerWidth < 768;
 let parsedItems = [], parsedDeals = [];
 
-const persistEntries = () => { localStorage.setItem('giq_entries', JSON.stringify(entries)); localStorage.setItem('giq_receipts', JSON.stringify(receipts)); };
-const persistDeals   = () => localStorage.setItem('giq_deals',   JSON.stringify(deals));
-const persistFeeds   = () => localStorage.setItem('giq_feeds',   JSON.stringify(feeds));
-const persistStores  = () => localStorage.setItem('giq_stores',  JSON.stringify(stores));
+const persistEntries = () => { localStorage.setItem(‘giq_entries’, JSON.stringify(entries)); localStorage.setItem(‘giq_receipts’, JSON.stringify(receipts)); };
+const persistDeals   = () => localStorage.setItem(‘giq_deals’,   JSON.stringify(deals));
+const persistFeeds   = () => localStorage.setItem(‘giq_feeds’,   JSON.stringify(feeds));
+const persistStores  = () => localStorage.setItem(‘giq_stores’,  JSON.stringify(stores));
 
 // ─────────────────────────────────────────────
 //  TOAST
 // ─────────────────────────────────────────────
-function toast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast on ' + type;
-  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), 3500);
+function toast(msg, type=’’) {
+const t = document.getElementById(‘toast’);
+t.textContent = msg; t.className = ’toast on ’ + type;
+clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove(‘on’), 3500);
 }
 
 // ─────────────────────────────────────────────
-//  STORE HELPERS  — auto-register, colors, pills
+//  STORE HELPERS
 // ─────────────────────────────────────────────
-const PALETTE = ['#f59e0b','#10b981','#6366f1','#ef4444','#3b82f6','#ec4899','#8b5cf6','#14b8a6','#f97316','#06b6d4'];
+const PALETTE = [’#f59e0b’,’#10b981’,’#6366f1’,’#ef4444’,’#3b82f6’,’#ec4899’,’#8b5cf6’,’#14b8a6’,’#f97316’,’#06b6d4’];
 
 function ensureStore(name) {
-  if (!name || stores.find(s => s.name === name)) return;
-  const used = stores.map(s => s.color);
-  const color = PALETTE.find(c => !used.includes(c)) || PALETTE[stores.length % PALETTE.length];
-  stores.push({ id: 'a_' + Date.now() + Math.random().toString(36).slice(2,6), name, color, loc: '', builtin: false });
-  persistStores();
+if (!name || stores.find(s => s.name === name)) return;
+const used = stores.map(s => s.color);
+const color = PALETTE.find(c => !used.includes(c)) || PALETTE[stores.length % PALETTE.length];
+stores.push({ id: ‘a_’ + Date.now() + Math.random().toString(36).slice(2,6), name, color, loc: ‘’, builtin: false });
+persistStores();
 }
 
 function storeColor(name) {
-  const s = stores.find(x => x.name === name);
-  return s ? s.color : '#a09a93';
-}
-
-function hex2rgba(h, a) {
-  if (!h || h.length < 7) return `rgba(160,154,147,${a})`;
-  const r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16);
-  return `rgba(${r},${g},${b},${a})`;
+const s = stores.find(x => x.name === name);
+return s ? s.color : ‘#a09a93’;
 }
 
 function populateSelects() {
-  ['d-store','md-store','nf-store'].forEach(id => {
-    const el = document.getElementById(id); if (!el) return;
-    const cur = el.value;
-    el.innerHTML = stores.length
-      ? stores.map(s => `<option value="${s.name}">${s.name}${s.loc?' — '+s.loc:''}</option>`).join('')
-      : `<option value="">— scan a receipt first —</option>`;
-    if (cur && stores.find(s => s.name === cur)) el.value = cur;
-  });
+[‘d-store’,‘md-store’,‘nf-store’].forEach(id => {
+const el = document.getElementById(id); if (!el) return;
+const cur = el.value;
+el.innerHTML = stores.length
+? stores.map(s => `<option value="${s.name}">${s.name}${s.loc?' — '+s.loc:''}</option>`).join(’’)
+: `<option value="">— scan a receipt first —</option>`;
+if (cur && stores.find(s => s.name === cur)) el.value = cur;
+});
 }
 
 // ─────────────────────────────────────────────
 //  SIDEBAR & NAV
 // ─────────────────────────────────────────────
 function renderSidebarFilters() {
-  document.getElementById('sb-store-filters').innerHTML = stores.map(s =>
-    `<div class="s-store-filter ${filterStore===s.name?'active-filter':''}" data-tip="${s.name}" onclick="setFilter(${JSON.stringify(s.name)})">
-      <span class="cdot" style="background:${s.color}"></span>
-      <span class="s-txt" style="font-size:.82rem">${s.name}</span>
-    </div>`
-  ).join('');
+document.getElementById(‘sb-store-filters’).innerHTML = stores.map(s =>
+`<div class="s-store-filter ${filterStore===s.name?'active-filter':''}" data-tip="${s.name}" onclick="setFilter(${JSON.stringify(s.name)})"> <span class="cdot" style="background:${s.color}"></span> <span class="s-txt" style="font-size:.82rem">${s.name}</span> </div>`
+).join(’’);
 }
 
 function toggleSidebar() {
-  if (isMob()) {
-    sidebarMob = !sidebarMob;
-    document.getElementById('sidebar').classList.toggle('mob-open', sidebarMob);
-    document.getElementById('s-ov').classList.toggle('on', sidebarMob);
-  } else {
-    sidebarExp = !sidebarExp;
-    document.getElementById('sidebar').classList.toggle('collapsed', !sidebarExp);
-    document.getElementById('s-push').classList.toggle('collapsed', !sidebarExp);
-  }
+if (isMob()) {
+sidebarMob = !sidebarMob;
+document.getElementById(‘sidebar’).classList.toggle(‘mob-open’, sidebarMob);
+document.getElementById(‘s-ov’).classList.toggle(‘on’, sidebarMob);
+} else {
+sidebarExp = !sidebarExp;
+document.getElementById(‘sidebar’).classList.toggle(‘collapsed’, !sidebarExp);
+document.getElementById(‘s-push’).classList.toggle(‘collapsed’, !sidebarExp);
+}
 }
 function closeSidebar() {
-  sidebarMob = false;
-  document.getElementById('sidebar').classList.remove('mob-open');
-  document.getElementById('s-ov').classList.remove('on');
+sidebarMob = false;
+document.getElementById(‘sidebar’).classList.remove(‘mob-open’);
+document.getElementById(‘s-ov’).classList.remove(‘on’);
 }
-window.addEventListener('resize', () => { if (!isMob()) closeSidebar(); });
+window.addEventListener(‘resize’, () => { if (!isMob()) closeSidebar(); });
 
 function goPage(name, sEl, mEl) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  document.querySelectorAll('.s-item[id^="sn-"]').forEach(x => x.classList.remove('active'));
-  const si = document.getElementById('sn-'+name); if(si) si.classList.add('active');
-  document.querySelectorAll('.mni').forEach(x => x.classList.remove('active'));
-  const mi = document.getElementById('mn-'+name); if(mi) mi.classList.add('active');
-  if (isMob()) closeSidebar();
-  if (name==='home')       renderHome();
-  if (name==='grocery')    renderGrocery();
-  if (name==='deals')      renderDeals();
-  if (name==='receipts')   renderReceipts();
-  if (name==='stores')     renderStores();
-  if (name==='pricetable') renderPriceTable();
+document.querySelectorAll(’.page’).forEach(p => p.classList.remove(‘active’));
+document.getElementById(‘page-’+name).classList.add(‘active’);
+document.querySelectorAll(’.s-item[id^=“sn-”]’).forEach(x => x.classList.remove(‘active’));
+const si = document.getElementById(‘sn-’+name); if(si) si.classList.add(‘active’);
+document.querySelectorAll(’.mni’).forEach(x => x.classList.remove(‘active’));
+const mi = document.getElementById(‘mn-’+name); if(mi) mi.classList.add(‘active’);
+if (isMob()) closeSidebar();
+if (name===‘home’)       renderHome();
+if (name===‘grocery’)    renderGrocery();
+if (name===‘deals’)      renderDeals();
+if (name===‘receipts’)   renderReceipts();
+if (name===‘stores’)     renderStores();
+if (name===‘pricetable’) renderPriceTable();
 }
 
 // ─────────────────────────────────────────────
 //  DATA HELPERS
 // ─────────────────────────────────────────────
-const uniqueItems = () => [...new Set(entries.map(e => e.item))].sort((a,b) => a.localeCompare(b));
+const uniqueItems = () => […new Set(entries.map(e => e.item))].sort((a,b) => a.localeCompare(b));
 
 function pricesByStore(item) {
-  // Returns latest price per store, sorted cheapest first
-  const storeNames = [...new Set(entries.filter(e => e.item===item).map(e => e.store))];
-  return storeNames.map(store => {
-    const all = entries.filter(e => e.item===item && e.store===store)
-                       .sort((a,b) => new Date(b.date)-new Date(a.date));
-    return { ...all[0], history: all };
-  }).sort((a,b) => a.price - b.price);
+const storeNames = […new Set(entries.filter(e => e.item===item).map(e => e.store))];
+return storeNames.map(store => {
+const all = entries.filter(e => e.item===item && e.store===store)
+.sort((a,b) => new Date(b.date)-new Date(a.date));
+return { …all[0], history: all };
+}).sort((a,b) => a.price - b.price);
 }
 
 function bestForItem(item) { const p = pricesByStore(item); return p[0] || null; }
 
-const today  = () => new Date().toISOString().split('T')[0];
-const fmtD   = d  => { if(!d)return'—'; const[y,m,dy]=d.split('-'); return `${m}/${dy}/${y}`; };
+const today  = () => new Date().toISOString().split(‘T’)[0];
+const fmtD   = d  => { if(!d)return’—’; const[y,m,dy]=d.split(’-’); return `${m}/${dy}/${y}`; };
 
 function nextWed() {
-  const d = new Date(), dow = d.getDay();
-  const diff = dow <= 3 ? 3-dow : 10-dow;
-  d.setDate(d.getDate() + (diff===0?0:diff));
-  return d.toISOString().split('T')[0];
+const d = new Date(), dow = d.getDay();
+const diff = dow <= 3 ? 3-dow : 10-dow;
+d.setDate(d.getDate() + (diff===0?0:diff));
+return d.toISOString().split(‘T’)[0];
 }
-function addDays(s,n){ const d=new Date(s); d.setDate(d.getDate()+n); return d.toISOString().split('T')[0]; }
+function addDays(s,n){ const d=new Date(s); d.setDate(d.getDate()+n); return d.toISOString().split(‘T’)[0]; }
 
 const isDealActive   = d => d.dateFrom <= today() && today() <= d.dateTo;
 const isExpiringSoon = d => isDealActive(d) && (new Date(d.dateTo)-new Date(today()))/86400000 <= 2;
 function dealPct(d){
-  const s=new Date(d.dateFrom),e=new Date(d.dateTo),n=new Date(today());
-  return Math.max(0,Math.min(100,100-Math.round(((n-s)/(e-s))*100)));
+const s=new Date(d.dateFrom),e=new Date(d.dateTo),n=new Date(today());
+return Math.max(0,Math.min(100,100-Math.round(((n-s)/(e-s))*100)));
 }
 function getActiveDeals() { return deals.filter(isDealActive); }
 
-// Strict deal matching — exact name or all words of deal name contained in item name
+// FIX: dealMatchScore — improved single-word matching
 function dealMatchScore(itemName, dealName) {
-  const il = itemName.toLowerCase().trim();
-  const dl = dealName.toLowerCase().trim();
-  if (il === dl) return 100;                            // exact
-  if (il.includes(dl) && dl.split(' ').length >= 2) return 90; // "Roma Tomatoes" fully in item
-  // All significant words of deal must appear in item
-  const dWords = dl.split(/\s+/).filter(w => w.length > 2);
-  const iWords = il.split(/\s+/);
-  const allMatch = dWords.every(dw => iWords.some(iw => iw.includes(dw) || dw.includes(iw)));
-  if (allMatch && dWords.length >= 2) return 80;
-  // First word exact match (e.g. "Roma" in "Roma Tomatoes") — only if 1-word deal
-  if (dl.split(' ').length === 1 && il.startsWith(dl)) return 70;
-  return 0;
+const il = itemName.toLowerCase().trim();
+const dl = dealName.toLowerCase().trim();
+if (il === dl) return 100;
+if (il.includes(dl) && dl.split(’ ‘).length >= 2) return 90;
+const dWords = dl.split(/\s+/).filter(w => w.length > 2);
+const iWords = il.split(/\s+/);
+const allMatch = dWords.every(dw => iWords.some(iw => iw.includes(dw) || dw.includes(iw)));
+if (allMatch && dWords.length >= 2) return 80;
+// FIX: single-word deal — match if item name contains the deal word
+if (dl.split(’ ’).length === 1 && il.includes(dl)) return 70;
+return 0;
 }
 
 function itemHasDeal(item) {
-  const ad = getActiveDeals();
-  let best = null, bestScore = 0;
-  ad.forEach(d => {
-    const score = dealMatchScore(item, d.item);
-    if (score > bestScore) { bestScore = score; best = d; }
-  });
-  return bestScore >= 70 ? best : null;
+const ad = getActiveDeals();
+let best = null, bestScore = 0;
+ad.forEach(d => {
+const score = dealMatchScore(item, d.item);
+if (score > bestScore) { bestScore = score; best = d; }
+});
+return bestScore >= 70 ? best : null;
 }
 
 function dealForStoreItem(item, store) {
-  return getActiveDeals().find(d => d.store === store && dealMatchScore(item, d.item) >= 70) || null;
+return getActiveDeals().find(d => d.store === store && dealMatchScore(item, d.item) >= 70) || null;
 }
 
 function matchedDeals() {
-  const items = uniqueItems();
-  return getActiveDeals().filter(d =>
-    items.some(item => dealMatchScore(item, d.item) >= 70)
-  );
+const items = uniqueItems();
+return getActiveDeals().filter(d =>
+items.some(item => dealMatchScore(item, d.item) >= 70)
+);
 }
 
-// item emoji — exact per category, no false matches
 function itemEmoji(item) {
-  const l = item.toLowerCase();
-  // dairy & eggs — specific checks first
-  if (/\begg/.test(l))                              return '🥚';
-  if (/\bmilk\b/.test(l))                           return '🥛';
-  if (/cheese|butter|yogurt|cream|dairy/.test(l))   return '🧀';
-  // bread & bakery
-  if (/bread|bakery|muffin|roll|bun|loaf|tortilla|bagel|pita/.test(l)) return '🍞';
-  // meat & seafood
-  if (/chicken|beef|pork|steak|lamb|ground meat|turkey|sausage|hot dog/.test(l)) return '🍗';
-  if (/fish|salmon|shrimp|tuna|tilapia|cod|seafood|crab|lobster/.test(l))        return '🐟';
-  // produce — individual items get own emoji
-  if (/tomato/.test(l))   return '🍅';
-  if (/banana/.test(l))   return '🍌';
-  if (/apple/.test(l))    return '🍎';
-  if (/orange|mandarin|tangerine|clementine/.test(l)) return '🍊';
-  if (/grape/.test(l))    return '🍇';
-  if (/lemon/.test(l))    return '🍋';
-  if (/avocado/.test(l))  return '🥑';
-  if (/potato/.test(l))   return '🥔';
-  if (/onion|garlic/.test(l)) return '🧅';
-  if (/pepper/.test(l))   return '🫑';
-  if (/carrot/.test(l))   return '🥕';
-  if (/lettuce|spinach|kale|cabbage|arugula/.test(l)) return '🥬';
-  if (/broccoli/.test(l)) return '🥦';
-  if (/corn/.test(l))     return '🌽';
-  if (/strawberry|berry/.test(l)) return '🍓';
-  // beverages
-  if (/water/.test(l))    return '💧';
-  if (/juice/.test(l))    return '🧃';
-  if (/coffee/.test(l))   return '☕';
-  if (/tea/.test(l))      return '🍵';
-  if (/soda|coke|pepsi|sprite|cola/.test(l)) return '🥤';
-  if (/wine/.test(l))     return '🍷';
-  if (/beer/.test(l))     return '🍺';
-  // snacks & pantry
-  if (/chip|cracker|pretzel/.test(l)) return '🥨';
-  if (/cookie|candy|chocolate/.test(l)) return '🍪';
-  if (/rice|pasta|noodle|ramen/.test(l)) return '🍚';
-  if (/bean|lentil/.test(l)) return '🫘';
-  if (/cereal|oat|granola/.test(l)) return '🥣';
-  if (/oil|vinegar/.test(l)) return '🫙';
-  if (/soup|broth|stock/.test(l)) return '🍲';
-  if (/sauce|ketchup|mustard|mayo/.test(l)) return '🥫';
-  if (/flour|sugar|salt|spice/.test(l)) return '🧂';
-  // household
-  if (/soap|shampoo|conditioner/.test(l)) return '🧴';
-  if (/detergent|cleaner/.test(l)) return '🫧';
-  if (/paper|towel|tissue|napkin/.test(l)) return '🧻';
-  return '🛒';
+const l = item.toLowerCase();
+if (/\begg/.test(l))                              return ‘🥚’;
+if (/\bmilk\b/.test(l))                           return ‘🥛’;
+if (/cheese|butter|yogurt|cream|dairy/.test(l))   return ‘🧀’;
+if (/bread|bakery|muffin|roll|bun|loaf|tortilla|bagel|pita/.test(l)) return ‘🍞’;
+if (/chicken|beef|pork|steak|lamb|ground meat|turkey|sausage|hot dog/.test(l)) return ‘🍗’;
+if (/fish|salmon|shrimp|tuna|tilapia|cod|seafood|crab|lobster/.test(l)) return ‘🐟’;
+if (/tomato/.test(l))   return ‘🍅’;
+if (/banana/.test(l))   return ‘🍌’;
+if (/apple/.test(l))    return ‘🍎’;
+if (/orange|mandarin|tangerine|clementine/.test(l)) return ‘🍊’;
+if (/grape/.test(l))    return ‘🍇’;
+if (/lemon/.test(l))    return ‘🍋’;
+if (/avocado/.test(l))  return ‘🥑’;
+if (/potato/.test(l))   return ‘🥔’;
+if (/onion|garlic/.test(l)) return ‘🧅’;
+if (/pepper/.test(l))   return ‘🫑’;
+if (/carrot/.test(l))   return ‘🥕’;
+if (/lettuce|spinach|kale|cabbage|arugula/.test(l)) return ‘🥬’;
+if (/broccoli/.test(l)) return ‘🥦’;
+if (/corn/.test(l))     return ‘🌽’;
+if (/strawberry|berry/.test(l)) return ‘🍓’;
+if (/water/.test(l))    return ‘💧’;
+if (/juice/.test(l))    return ‘🧃’;
+if (/coffee/.test(l))   return ‘☕’;
+if (/tea/.test(l))      return ‘🍵’;
+if (/soda|coke|pepsi|sprite|cola/.test(l)) return ‘🥤’;
+if (/wine/.test(l))     return ‘🍷’;
+if (/beer/.test(l))     return ‘🍺’;
+if (/chip|cracker|pretzel/.test(l)) return ‘🥨’;
+if (/cookie|candy|chocolate/.test(l)) return ‘🍪’;
+if (/rice|pasta|noodle|ramen/.test(l)) return ‘🍚’;
+if (/bean|lentil/.test(l)) return ‘🫘’;
+if (/cereal|oat|granola/.test(l)) return ‘🥣’;
+if (/oil|vinegar/.test(l)) return ‘🫙’;
+if (/soup|broth|stock/.test(l)) return ‘🍲’;
+if (/sauce|ketchup|mustard|mayo/.test(l)) return ‘🥫’;
+if (/flour|sugar|salt|spice/.test(l)) return ‘🧂’;
+if (/soap|shampoo|conditioner/.test(l)) return ‘🧴’;
+if (/detergent|cleaner/.test(l)) return ‘🫧’;
+if (/paper|towel|tissue|napkin/.test(l)) return ‘🧻’;
+return ‘🛒’;
 }
 
 // ─────────────────────────────────────────────
 //  HOME PAGE
 // ─────────────────────────────────────────────
 function renderHome() {
-  const items = uniqueItems();
-  const ad = getActiveDeals(), md = matchedDeals();
+const items = uniqueItems();
+const ad = getActiveDeals(), md = matchedDeals();
+let savings = 0;
+const wins = {};
+items.forEach(item => {
+const p = pricesByStore(item);
+if (p.length>=2) savings += p[p.length-1].price - p[0].price;
+const b = p[0]; if(b) wins[b.store] = (wins[b.store]||0)+1;
+});
+const top = Object.entries(wins).sort((a,b)=>b[1]-a[1])[0];
+document.getElementById(‘st-items’).textContent = items.length;
+document.getElementById(‘st-deals’).textContent = ad.length;
+document.getElementById(‘st-deals-note’).textContent = md.length ? `${md.length} match your list` : ‘this week’;
+document.getElementById(‘st-best’).textContent = top ? top[0] : ‘—’;
+document.getElementById(‘st-best-note’).textContent = top ? `${top[1]} cheapest items` : ‘—’;
+document.getElementById(‘st-save’).textContent = ‘$’+savings.toFixed(2);
+document.getElementById(‘sb-items’).textContent = items.length;
+document.getElementById(‘sb-deals’).textContent = deals.length;
+document.getElementById(‘sb-receipts’).textContent = receipts.length;
 
-  // stats
-  let savings = 0;
-  const wins = {};
-  items.forEach(item => {
-    const p = pricesByStore(item);
-    if (p.length>=2) savings += p[p.length-1].price - p[0].price;
-    const b = p[0]; if(b) wins[b.store] = (wins[b.store]||0)+1;
-  });
-  const top = Object.entries(wins).sort((a,b)=>b[1]-a[1])[0];
+const bw = document.getElementById(‘sale-banner-wrap’);
+if (md.length) {
+bw.style.display = ‘block’;
+document.getElementById(‘sale-banner-rows’).innerHTML = md.map(d => {
+const exp = isExpiringSoon(d);
+return `<div class="deal-row" onclick="openSheet(${JSON.stringify(d.item)})"> <span class="cdot" style="background:${storeColor(d.store)}"></span> <div class="dr-info"> <div class="dr-name">${d.item}</div> <div class="dr-meta">${d.store}${d.desc?' · '+d.desc:''} · thru ${fmtD(d.dateTo)}${exp?' ⚡':''}</div> </div> <div class="dr-price"> <div class="dr-now">$${d.price.toFixed(2)}</div> ${d.origPrice?`<div class="dr-was">$${parseFloat(d.origPrice).toFixed(2)}</div>`:''} </div> </div>`;
+}).join(’’);
+} else { bw.style.display=‘none’; }
 
-  document.getElementById('st-items').textContent = items.length;
-  document.getElementById('st-deals').textContent = ad.length;
-  document.getElementById('st-deals-note').textContent = md.length ? `${md.length} match your list` : 'this week';
-  document.getElementById('st-best').textContent = top ? top[0] : '—';
-  document.getElementById('st-best-note').textContent = top ? `${top[1]} cheapest items` : '—';
-  document.getElementById('st-save').textContent = '$'+savings.toFixed(2);
-  document.getElementById('sb-items').textContent = items.length;
-  document.getElementById('sb-deals').textContent = deals.length;
-  document.getElementById('sb-receipts').textContent = receipts.length;
-
-  // sale banner
-  const bw = document.getElementById('sale-banner-wrap');
-  if (md.length) {
-    bw.style.display = 'block';
-    document.getElementById('sale-banner-rows').innerHTML = md.map(d => {
-      const pct = dealPct(d), exp = isExpiringSoon(d);
-      const fc = pct<25?'#dc2626':pct<55?'#f59e0b':'#16a34a';
-      return `<div class="deal-row" onclick="openSheet(${JSON.stringify(d.item)})">
-        <span class="cdot" style="background:${storeColor(d.store)}"></span>
-        <div class="dr-info">
-          <div class="dr-name">${d.item}</div>
-          <div class="dr-meta">${d.store}${d.desc?' · '+d.desc:''} · thru ${fmtD(d.dateTo)}${exp?' ⚡':''}</div>
-        </div>
-        <div class="dr-price">
-          <div class="dr-now">$${d.price.toFixed(2)}</div>
-          ${d.origPrice?`<div class="dr-was">$${parseFloat(d.origPrice).toFixed(2)}</div>`:''}
-        </div>
-      </div>`;
-    }).join('');
-  } else { bw.style.display='none'; }
-
-  // grocery preview (first 6)
-  const hl = document.getElementById('home-list');
-  if (!items.length) {
-    hl.innerHTML=`<div class="empty"><div class="empty-ic">🛒</div><p>Scan a receipt or import weekly deals to start tracking prices across stores.</p><div class="empty-acts"><button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Scan Receipt</button><button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️ Import Deals</button></div></div>`;
-  } else {
-    hl.innerHTML = `<div class="g-list">${items.slice(0,6).map(buildGroceryCard).join('')}</div>`;
-    if (items.length>6) hl.innerHTML += `<div style="text-align:center;padding:12px 0"><button class="btn btn-ghost btn-sm" onclick="goPage('grocery',null)">View all ${items.length} items →</button></div>`;
-  }
+const hl = document.getElementById(‘home-list’);
+if (!items.length) {
+hl.innerHTML=`<div class="empty"><div class="empty-ic">🛒</div><p>Scan a receipt or import weekly deals to start tracking prices across stores.</p><div class="empty-acts"><button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Scan Receipt</button><button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️ Import Deals</button></div></div>`;
+} else {
+hl.innerHTML = `<div class="g-list">${items.slice(0,6).map(buildGroceryCard).join('')}</div>`;
+if (items.length>6) hl.innerHTML += `<div style="text-align:center;padding:12px 0"><button class="btn btn-ghost btn-sm" onclick="goPage('grocery',null)">View all ${items.length} items →</button></div>`;
+}
 }
 
 // ─────────────────────────────────────────────
-//  GROCERY CARD HTML
+//  GROCERY CARD
 // ─────────────────────────────────────────────
 function buildGroceryCard(item) {
-  const pbs   = pricesByStore(item);
-  if (!pbs.length) return '';
-  const best  = pbs[0];
-  const deal  = itemHasDeal(item);
-  const count = pbs.length;
-  const emoji = itemEmoji(item);
-  const c     = storeColor(best.store);
-  const rk    = regItem(item);
+const pbs   = pricesByStore(item);
+if (!pbs.length) return ‘’;
+const best  = pbs[0];
+const deal  = itemHasDeal(item);
+const count = pbs.length;
+const emoji = itemEmoji(item);
+const c     = storeColor(best.store);
+const rk    = regItem(item);
+return `<div class="g-card ${deal?'has-deal':''}"> <div style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="openSheet(_itemReg['${rk}'])"> <div class="g-icon">${emoji}</div> <div class="g-body"> <div class="g-name"> ${item} ${deal?'<span class="on-sale-pill">🏷️ ON SALE</span>':''} </div> <div class="g-meta"> <span class="cdot" style="background:${c}"></span> <span style="color:${c};font-weight:600">${best.store}</span> ${count>1?`<span class="store-count-pill">+${count-1} more store${count>2?‘s’:’’}</span>`:''} ${best.qty?`<span>· ${best.qty}</span>`:''} </div> ${deal?`<div class="g-deal-line">🏷️ $${deal.price.toFixed(2)} at ${deal.store} · ends ${fmtD(deal.dateTo)}</div>`:’’}
+</div>
+<div class="g-right">
+<div class="g-price">$${parseFloat(best.price).toFixed(2)}</div>
+<div class="g-store-lbl">best price</div>
+</div>
+<span class="g-caret">›</span>
+</div>
+<button onclick="deleteItem('${rk}')" title="Remove item" style="position:absolute;top:8px;right:8px;background:none;border:none;color:var(--ink3);font-size:.78rem;cursor:pointer;padding:4px 6px;border-radius:6px;line-height:1;opacity:0;transition:.15s" onmouseover="this.style.opacity=1;this.style.background='var(--red-bg)';this.style.color='var(--red)'" onmouseout="this.style.opacity=0;this.style.background='none';this.style.color='var(--ink3)'" class="g-del-btn">🗑</button>
 
-  return `<div class="g-card ${deal?'has-deal':''}" style="position:relative">
-    <div style="flex:1;display:flex;align-items:center;gap:13px;cursor:pointer" onclick="openSheet(_itemReg['${rk}'])">
-      <div class="g-icon">${emoji}</div>
-      <div class="g-body">
-        <div class="g-name">
-          ${item}
-          ${deal?'<span class="on-sale-pill">🏷️ ON SALE</span>':''}
-        </div>
-        <div class="g-meta">
-          <span class="cdot" style="background:${c}"></span>
-          <span style="color:${c};font-weight:600">${best.store}</span>
-          ${count>1?`<span class="store-count-pill">+${count-1} more store${count>2?'s':''}</span>`:''}
-          ${best.qty?`<span>· ${best.qty}</span>`:''}
-        </div>
-        ${deal?`<div class="g-deal-line">🏷️ $${deal.price.toFixed(2)} at ${deal.store} · ends ${fmtD(deal.dateTo)}</div>`:''}
-      </div>
-      <div class="g-right">
-        <div class="g-price">$${parseFloat(best.price).toFixed(2)}</div>
-        <div class="g-store-lbl">best price</div>
-      </div>
-      <span class="g-caret">›</span>
-    </div>
-    <button onclick="deleteItem('${rk}')" title="Remove item" style="position:absolute;top:8px;right:8px;background:none;border:none;color:var(--ink3);font-size:.8rem;cursor:pointer;padding:4px 6px;border-radius:6px;line-height:1;opacity:0;transition:.15s" onmouseover="this.style.opacity=1;this.style.background='var(--red-bg)';this.style.color='var(--red)'" onmouseout="this.style.opacity=0;this.style.background='none';this.style.color='var(--ink3)'" class="g-del-btn">🗑</button>
   </div>`;
 }
 
@@ -1103,271 +992,199 @@ function buildGroceryCard(item) {
 //  GROCERY LIST PAGE
 // ─────────────────────────────────────────────
 function renderGrocery() {
-  let items = uniqueItems();
-  if (filterStore) items = items.filter(item => pricesByStore(item).some(p=>p.store===filterStore));
-
-  // filter chips
-  const fc = document.getElementById('filter-chips');
-  fc.innerHTML = [
-    `<button class="btn btn-xs ${!filterStore?'btn-amber':'btn-outline'}" onclick="setFilter(null)" style="flex-shrink:0">All</button>`,
-    ...stores.map(s=>`<button class="btn btn-xs ${filterStore===s.name?'btn-amber':'btn-ghost'}" onclick="setFilter(${JSON.stringify(s.name)})" style="flex-shrink:0"><span class="cdot" style="background:${s.color};margin-right:4px"></span>${s.name}</button>`)
-  ].join('');
-
-  const fl = document.getElementById('full-list');
-  if (!items.length) {
-    fl.innerHTML=`<div class="empty"><div class="empty-ic">🛒</div><p>${filterStore?`No items found for ${filterStore}.`:'No items tracked yet. Scan a receipt or import weekly deals.'}</p><div class="empty-acts"><button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Scan Receipt</button><button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️ Import Deals</button></div></div>`;
-  } else {
-    fl.innerHTML = `<div class="g-list">${items.map(buildGroceryCard).join('')}</div>`;
-  }
+let items = uniqueItems();
+if (filterStore) items = items.filter(item => pricesByStore(item).some(p=>p.store===filterStore));
+const fc = document.getElementById(‘filter-chips’);
+fc.innerHTML = [
+`<button class="btn btn-xs ${!filterStore?'btn-amber':'btn-outline'}" onclick="setFilter(null)" style="flex-shrink:0">All</button>`,
+…stores.map(s=>`<button class="btn btn-xs ${filterStore===s.name?'btn-amber':'btn-ghost'}" onclick="setFilter(${JSON.stringify(s.name)})" style="flex-shrink:0"><span class="cdot" style="background:${s.color};margin-right:4px"></span>${s.name}</button>`)
+].join(’’);
+const fl = document.getElementById(‘full-list’);
+if (!items.length) {
+fl.innerHTML=`<div class="empty"><div class="empty-ic">🛒</div><p>${filterStore?`No items found for ${filterStore}.`:'No items tracked yet.'}</p><div class="empty-acts"><button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Scan Receipt</button><button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️ Import Deals</button></div></div>`;
+} else {
+fl.innerHTML = `<div class="g-list">${items.map(buildGroceryCard).join('')}</div>`;
+}
 }
 
 function setFilter(s) {
-  filterStore = s;
-  renderSidebarFilters();
-  if (document.getElementById('page-grocery').classList.contains('active')) renderGrocery();
-  toast(s?`Showing: ${s}`:'Filter cleared', s?'':'warn');
+filterStore = s;
+renderSidebarFilters();
+if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
+toast(s?`Showing: ${s}`:‘Filter cleared’, s?’’:‘warn’);
 }
 
 // ─────────────────────────────────────────────
 //  PRICE COMPARE SHEET
 // ─────────────────────────────────────────────
 function openSheet(item) {
-  const pbs = pricesByStore(item);
-  if (!pbs.length) return;
+const pbs = pricesByStore(item);
+if (!pbs.length) return;
+const best  = pbs[0];
+const worst = pbs[pbs.length-1];
+const saved = pbs.length>1 ? (worst.price-best.price) : 0;
+const emoji = itemEmoji(item);
+document.getElementById(‘sheet-emoji’).textContent = emoji;
+document.getElementById(‘sheet-title’).textContent = item;
+const sheetRegKey = regItem(item);
+document.getElementById(‘sheet-sub’).innerHTML =
+`${pbs.length} store${pbs.length!==1?'s':''} tracked &nbsp;·&nbsp; <button onclick="deleteItem('${sheetRegKey}')" style="background:none;border:none;color:var(--red);font-size:.7rem;font-weight:600;cursor:pointer;padding:0;text-decoration:underline">🗑 Remove item</button>`;
 
-  const best  = pbs[0];
-  const worst = pbs[pbs.length-1];
-  const saved = pbs.length>1 ? (worst.price-best.price) : 0;
-  const emoji = itemEmoji(item);
+const compareRows = pbs.map((p,i) => {
+const isBest   = i===0;
+const deal     = dealForStoreItem(item, p.store);
+const isOnSale = !!deal;
+const cls      = isBest?‘best’:isOnSale?‘on-sale’:’’;
+const pcls     = isBest?‘cr-price-best’:isOnSale?‘cr-price-sale’:‘cr-price-normal’;
+const c        = storeColor(p.store);
+const tags     = [];
+if (isBest)   tags.push(’<span class="cr-tag cr-tag-best">★ Best Price</span>’);
+if (isOnSale) tags.push(’<span class="cr-tag cr-tag-sale">🏷️ On Sale</span>’);
+if (isOnSale && isExpiringSoon(deal)) tags.push(’<span class="cr-tag cr-tag-expiring">⚡ Ends soon</span>’);
+return `<div class="cmp-row ${cls}"> <div class="cr-dot" style="background:${c}"></div> <div class="cr-info"> <div class="cr-store">${p.store}</div> <div class="cr-detail">${p.qty||''}${p.qty&&p.notes?' · ':''}${p.notes||''}</div> ${tags.length?`<div class="cr-tags">${tags.join(’’)}</div>`:''} ${deal?`<div style="font-size:.67rem;color:var(--purple);margin-top:3px;font-weight:500">Sale price: $${deal.price.toFixed(2)} · thru ${fmtD(deal.dateTo)}</div>`:''} </div> <div class="cr-right"> <div class="cr-price ${pcls}">$${parseFloat(p.price).toFixed(2)}</div> <div class="cr-date">${fmtD(p.date)}</div> <div class="cr-source">${p.notes||'tracked'}</div> </div> </div>`;
+}).join(’’);
 
-  document.getElementById('sheet-emoji').textContent = emoji;
-  document.getElementById('sheet-title').textContent = item;
-  const sheetRegKey = regItem(item);
-  document.getElementById('sheet-sub').innerHTML =
-    `${pbs.length} store${pbs.length!==1?'s':''} tracked &nbsp;·&nbsp;
-     <button onclick="deleteItem('${sheetRegKey}')" style="background:none;border:none;color:var(--red);font-size:.72rem;font-weight:600;cursor:pointer;padding:0;text-decoration:underline">🗑 Remove item</button>`;
+const saveBox = saved > 0.005 ? `<div class="save-row">
+<div class="save-icon">💰</div>
+<div class="save-body">
+<div class="save-msg">Buy at ${best.store} instead of ${worst.store}</div>
+<div class="save-amt">Save $${saved.toFixed(2)}</div>
+<div class="save-detail">on this item alone</div>
+</div>
 
-  // Compare rows — one row per store showing latest price
-  const compareRows = pbs.map((p,i) => {
-    const isBest   = i===0;
-    const deal     = dealForStoreItem(item, p.store);
-    const isOnSale = !!deal;
-    const cls      = isBest?'best':isOnSale?'on-sale':'';
-    const pcls     = isBest?'cr-price-best':isOnSale?'cr-price-sale':'cr-price-normal';
-    const c        = storeColor(p.store);
-    const tags     = [];
-    if (isBest)   tags.push('<span class="cr-tag cr-tag-best">★ Best Price</span>');
-    if (isOnSale) tags.push('<span class="cr-tag cr-tag-sale">🏷️ On Sale</span>');
-    if (isOnSale && isExpiringSoon(deal)) tags.push('<span class="cr-tag cr-tag-expiring">⚡ Ends soon</span>');
-    return `<div class="cmp-row ${cls}">
-      <div class="cr-dot" style="background:${c}"></div>
-      <div class="cr-info">
-        <div class="cr-store">${p.store}</div>
-        <div class="cr-detail">${p.qty||''}${p.qty&&p.notes?' · ':''}${p.notes||''}</div>
-        ${tags.length?`<div class="cr-tags">${tags.join('')}</div>`:''}
-        ${deal?`<div style="font-size:.69rem;color:var(--purple);margin-top:3px;font-weight:500">Sale price: $${deal.price.toFixed(2)} · thru ${fmtD(deal.dateTo)}</div>`:''}
-      </div>
-      <div class="cr-right">
-        <div class="cr-price ${pcls}">$${parseFloat(p.price).toFixed(2)}</div>
-        <div class="cr-date">${fmtD(p.date)}</div>
-        <div class="cr-source">${p.notes||'tracked'}</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  // Savings summary
-  const saveBox = saved > 0.005 ? `<div class="save-row">
-    <div class="save-icon">💰</div>
-    <div class="save-body">
-      <div class="save-msg">Buy at ${best.store} instead of ${worst.store}</div>
-      <div class="save-amt">Save $${saved.toFixed(2)}</div>
-      <div class="save-detail">on this item alone</div>
-    </div>
   </div>` : '';
 
-  // Full price history
-  const allEntries = entries.filter(e=>e.item===item).sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const histRows = allEntries.map(e => {
-    const idx = entries.indexOf(e);
-    const c = storeColor(e.store);
-    const rk = regItem(item);
-    return `<div class="hist-row">
-      <div class="hist-l">
-        <span class="cdot" style="background:${c}"></span>
-        <div>
-          <div class="hist-store">${e.store}</div>
-          <div class="hist-src">${e.notes||'tracked'}${e.qty?' · '+e.qty:''}</div>
-        </div>
-      </div>
-      <div class="hist-r">
-        <span class="hist-price">$${parseFloat(e.price).toFixed(2)}</span>
-        <span class="hist-date">${fmtD(e.date)}</span>
-        <button class="del-btn" onclick="deleteEntry(${idx},'${rk}')">✕</button>
-      </div>
-    </div>`;
-  }).join('');
+const allEntries = entries.filter(e=>e.item===item).sort((a,b)=>new Date(b.date)-new Date(a.date));
+const histRows = allEntries.map(e => {
+const idx = entries.indexOf(e);
+const c = storeColor(e.store);
+const rk = regItem(item);
+return `<div class="hist-row"> <div class="hist-l"> <span class="cdot" style="background:${c}"></span> <div> <div class="hist-store">${e.store}</div> <div class="hist-src">${e.notes||'tracked'}${e.qty?' · '+e.qty:''}</div> </div> </div> <div class="hist-r"> <span class="hist-price">$${parseFloat(e.price).toFixed(2)}</span> <span class="hist-date">${fmtD(e.date)}</span> <button class="del-btn" onclick="deleteEntry(${idx},'${rk}')">✕</button> </div> </div>`;
+}).join(’’);
 
-  document.getElementById('sheet-body').innerHTML = `
-    <div class="cmp-list">${compareRows}</div>
-    ${saveBox}
-    <div class="hist-title">Price History</div>
-    ${histRows}
-  `;
+document.getElementById(‘sheet-body’).innerHTML = `<div class="cmp-list">${compareRows}</div> ${saveBox} <div class="hist-title">Price History</div> ${histRows}`;
 
-  const ov = document.getElementById('sheet-ov');
-  ov.classList.add('on');
-  ov.onclick = e => { if(e.target===ov) closeSheet(); };
-
-  // swipe down to close
-  const sh = document.getElementById('sheet');
-  let sy=0;
-  sh.ontouchstart = e => { sy=e.touches[0].clientY; };
-  sh.ontouchmove  = e => { if(e.touches[0].clientY-sy>70&&sh.scrollTop===0) closeSheet(); };
+const ov = document.getElementById(‘sheet-ov’);
+ov.classList.add(‘on’);
+ov.onclick = e => { if(e.target===ov) closeSheet(); };
+const sh = document.getElementById(‘sheet’);
+let sy=0;
+sh.ontouchstart = e => { sy=e.touches[0].clientY; };
+sh.ontouchmove  = e => { if(e.touches[0].clientY-sy>70&&sh.scrollTop===0) closeSheet(); };
 }
 
-function closeSheet() { document.getElementById('sheet-ov').classList.remove('on'); }
+function closeSheet() { document.getElementById(‘sheet-ov’).classList.remove(‘on’); }
 
-// Safe item action registry — avoids quote-escaping issues in innerHTML onclick
 const _itemReg = {};
 let _itemRegIdx = 0;
 function regItem(item) {
-  const k = 'ir' + (_itemRegIdx++);
-  _itemReg[k] = item;
-  return k;
+const k = ‘ir’ + (_itemRegIdx++);
+_itemReg[k] = item;
+return k;
 }
 
 function deleteEntry(entryIdx, regKey) {
-  const item = _itemReg[regKey];
-  if (!item) return;
-  if (!confirm('Remove this price entry?')) return;
-  entries.splice(entryIdx, 1);
-  persistEntries();
-  const remaining = pricesByStore(item);
-  if (remaining.length) openSheet(item);
-  else { closeSheet(); }
-  renderHome();
-  if (document.getElementById('page-grocery').classList.contains('active')) renderGrocery();
-  if (document.getElementById('page-pricetable').classList.contains('active')) renderPriceTable();
-  toast('Price entry removed.');
+const item = _itemReg[regKey];
+if (!item) return;
+if (!confirm(‘Remove this price entry?’)) return;
+entries.splice(entryIdx, 1);
+persistEntries();
+const remaining = pricesByStore(item);
+if (remaining.length) openSheet(item);
+else closeSheet();
+renderHome();
+if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
+if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
+toast(‘Price entry removed.’);
 }
 
 function deleteItem(regKey) {
-  const item = typeof regKey === 'string' && _itemReg[regKey] ? _itemReg[regKey] : regKey;
-  if (!item) return;
-  if (!confirm(`Remove "${item}" and all its price history?`)) return;
-  entries = entries.filter(e => e.item !== item);
-  persistEntries();
-  closeSheet();
-  renderHome();
-  if (document.getElementById('page-grocery').classList.contains('active')) renderGrocery();
-  if (document.getElementById('page-pricetable').classList.contains('active')) renderPriceTable();
-  toast(`"${item}" removed from your list.`);
+const item = typeof regKey === ‘string’ && _itemReg[regKey] ? _itemReg[regKey] : regKey;
+if (!item) return;
+if (!confirm(`Remove "${item}" and all its price history?`)) return;
+entries = entries.filter(e => e.item !== item);
+persistEntries();
+closeSheet();
+renderHome();
+if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
+if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
+toast(`"${item}" removed from your list.`);
 }
 
 // ─────────────────────────────────────────────
 //  DEALS PAGE
 // ─────────────────────────────────────────────
 function renderDeals() {
-  // feeds
-  const fl = document.getElementById('feed-list');
-  fl.innerHTML = feeds.length
-    ? feeds.map((f,i) => `<div class="feed-card">
-        <span class="cdot" style="background:${storeColor(f.store)};margin-top:3px;flex-shrink:0"></span>
-        <div class="feed-info">
-          <div class="feed-name">${f.store}</div>
-          <a href="${f.url}" target="_blank" rel="noopener" class="feed-url">${f.url}</a>
-          <div style="font-size:.68rem;color:var(--ink3);margin-top:3px">Saved ${fmtD(f.added)}</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
-          <button class="btn btn-purple btn-xs" onclick="fetchDealUrl(${JSON.stringify(f.store)})">🏷️ Get Deals</button>
-          <div style="display:flex;gap:4px">
-            <a href="${f.url}" target="_blank" rel="noopener" class="btn btn-outline btn-xs">Open ↗</a>
-            <button class="btn btn-xs" style="background:var(--red-bg);color:var(--red);border:1px solid #fecaca" onclick="deleteFeed(${i})">✕</button>
-          </div>
-        </div>
-      </div>`).join('')
-    : '<p style="font-size:.79rem;color:var(--ink3)">No sources saved yet. Paste your store\'s weekly ad URL above.</p>';
+const fl = document.getElementById(‘feed-list’);
+fl.innerHTML = feeds.length
+? feeds.map((f,i) => `<div class="feed-card"> <span class="cdot" style="background:${storeColor(f.store)};margin-top:3px;flex-shrink:0"></span> <div class="feed-info"> <div class="feed-name">${f.store}</div> <a href="${f.url}" target="_blank" rel="noopener" class="feed-url">${f.url}</a> <div style="font-size:.66rem;color:var(--ink3);margin-top:3px">Saved ${fmtD(f.added)}</div> </div> <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0"> <button class="btn btn-purple btn-xs" onclick="fetchDealUrl(${JSON.stringify(f.store)})">🏷️ Get Deals</button> <div style="display:flex;gap:4px"> <a href="${f.url}" target="_blank" rel="noopener" class="btn btn-outline btn-xs">Open ↗</a> <button class="btn btn-xs" style="background:var(--red-bg);color:var(--red);border:1px solid #fecaca" onclick="deleteFeed(${i})">✕</button> </div> </div> </div>`).join(’’)
+: ‘<p style="font-size:.77rem;color:var(--ink3)">No sources saved yet. Paste your store's weekly ad URL above.</p>’;
 
-  // deals list
-  const expired = deals.filter(d=>!isDealActive(d)).length;
-  document.getElementById('exp-badge').style.display  = expired?'inline':'none';
-  document.getElementById('exp-badge').textContent    = `${expired} expired`;
-  document.getElementById('clr-exp-btn').style.display= expired?'inline-flex':'none';
+const expired = deals.filter(d=>!isDealActive(d)).length;
+document.getElementById(‘exp-badge’).style.display  = expired?‘inline’:‘none’;
+document.getElementById(‘exp-badge’).textContent    = `${expired} expired`;
+document.getElementById(‘clr-exp-btn’).style.display= expired?‘inline-flex’:‘none’;
 
-  const ad = document.getElementById('all-deals');
-  if (!deals.length) {
-    ad.innerHTML='<div class="empty"><div class="empty-ic">🏷️</div><p>No deals yet.<br>Import your store\'s weekly ad text above.</p></div>';
-    return;
-  }
-  const sorted = [...deals].sort((a,b)=>new Date(b.dateFrom)-new Date(a.dateFrom));
-  ad.innerHTML = sorted.map(d => {
-    const active=isDealActive(d), exp=isExpiringSoon(d);
-    const pct = dealPct(d);
-    const fc  = pct<25?'#dc2626':pct<55?'#f59e0b':'#16a34a';
-    const statusPill = active
-      ? (exp?'<span class="status-pill sp-expiring">⚡ Ending soon</span>':'<span class="status-pill sp-active">✓ Active</span>')
-      : '<span class="status-pill sp-expired">Expired</span>';
-    return `<div class="deal-item ${active?'active-deal':'expired-deal'}">
-      <span class="cdot" style="background:${storeColor(d.store)};margin-top:4px;flex-shrink:0"></span>
-      <div class="di-body">
-        <div class="di-name">${d.item}</div>
-        <div class="di-meta">
-          <span style="color:${storeColor(d.store)};font-weight:600">${d.store}</span>
-          ${d.desc?`<span>· ${d.desc}</span>`:''}
-          <span>· ${fmtD(d.dateFrom)} – ${fmtD(d.dateTo)}</span>
-          ${statusPill}
-        </div>
-        ${active?`<div class="exp-bar"><div class="exp-fill" style="width:${pct}%;background:${fc}"></div></div>`:''}
-      </div>
-      <div class="di-right">
-        <div class="di-price">$${parseFloat(d.price).toFixed(2)}</div>
-        ${d.origPrice?`<div class="di-orig">$${parseFloat(d.origPrice).toFixed(2)}</div>`:''}
-        <button onclick="deleteDeal(${deals.indexOf(d)})" class="del-btn" style="margin-top:6px">✕</button>
-      </div>
-    </div>`;
-  }).join('');
+const ad = document.getElementById(‘all-deals’);
+if (!deals.length) {
+ad.innerHTML=’<div class="empty"><div class="empty-ic">🏷️</div><p>No deals yet.<br>Import your store's weekly ad text above.</p></div>’;
+return;
+}
+// FIX: sort but track original index to avoid indexOf bug on sorted copy
+const indexed = deals.map((d,i) => ({d, i})).sort((a,b)=>new Date(b.d.dateFrom)-new Date(a.d.dateFrom));
+ad.innerHTML = indexed.map(({d, i}) => {
+const active=isDealActive(d), exp=isExpiringSoon(d);
+const pct = dealPct(d);
+const fc  = pct<25?’#dc2626’:pct<55?’#f59e0b’:’#16a34a’;
+const statusPill = active
+? (exp?’<span class="status-pill sp-expiring">⚡ Ending soon</span>’:’<span class="status-pill sp-active">✓ Active</span>’)
+: ‘<span class="status-pill sp-expired">Expired</span>’;
+return `<div class="deal-item ${active?'active-deal':'expired-deal'}"> <span class="cdot" style="background:${storeColor(d.store)};margin-top:4px;flex-shrink:0"></span> <div class="di-body"> <div class="di-name">${d.item}</div> <div class="di-meta"> <span style="color:${storeColor(d.store)};font-weight:600">${d.store}</span> ${d.desc?`<span>· ${d.desc}</span>`:''} <span>· ${fmtD(d.dateFrom)} - ${fmtD(d.dateTo)}</span> ${statusPill} </div> ${active?`<div class="exp-bar"><div class="exp-fill" style="width:${pct}%;background:${fc}"></div></div>`:''} </div> <div class="di-right"> <div class="di-price">$${parseFloat(d.price).toFixed(2)}</div> ${d.origPrice?`<div class="di-orig">$${parseFloat(d.origPrice).toFixed(2)}</div>`:''} <button onclick="deleteDeal(${i})" class="del-btn" style="margin-top:6px">✕</button> </div> </div>`;
+}).join(’’);
 }
 
 function clearExpired() {
-  if (!confirm('Remove all expired deals?')) return;
-  deals = deals.filter(isDealActive); persistDeals(); renderDeals(); renderHome();
-  toast('Expired deals cleared.');
+if (!confirm(‘Remove all expired deals?’)) return;
+deals = deals.filter(isDealActive); persistDeals(); renderDeals(); renderHome();
+toast(‘Expired deals cleared.’);
 }
+// FIX: deleteDeal now uses the passed index directly (not indexOf on sorted copy)
 function deleteDeal(i) {
-  if (!confirm('Remove this deal?')) return;
-  deals.splice(i,1); persistDeals(); renderDeals(); renderHome();
-  toast('Deal removed.');
+if (!confirm(‘Remove this deal?’)) return;
+deals.splice(i,1); persistDeals(); renderDeals(); renderHome();
+toast(‘Deal removed.’);
 }
 function addFeed() {
-  const url   = document.getElementById('nf-url').value.trim();
-  const store = document.getElementById('nf-store').value;
-  if (!url)  { toast('⚠️ Enter a URL','warn'); return; }
-  if (feeds.find(f=>f.url===url)) { toast('⚠️ Already saved','warn'); return; }
-  feeds.push({url,store,added:today()}); persistFeeds(); renderDeals();
-  document.getElementById('nf-url').value='';
-  toast(`✅ "${store}" deal source saved!`,'good');
+const url   = document.getElementById(‘nf-url’).value.trim();
+const store = document.getElementById(‘nf-store’).value;
+if (!url)  { toast(‘⚠️ Enter a URL’,‘warn’); return; }
+if (feeds.find(f=>f.url===url)) { toast(‘⚠️ Already saved’,‘warn’); return; }
+feeds.push({url,store,added:today()}); persistFeeds(); renderDeals();
+document.getElementById(‘nf-url’).value=’’;
+toast(`✅ "${store}" deal source saved!`,‘good’);
 }
 function deleteFeed(i) {
-  if (!confirm('Remove this source?')) return;
-  feeds.splice(i,1); persistFeeds(); renderDeals(); toast('Source removed.');
+if (!confirm(‘Remove this source?’)) return;
+feeds.splice(i,1); persistFeeds(); renderDeals(); toast(‘Source removed.’);
 }
 
 // ─────────────────────────────────────────────
 //  RECEIPTS PAGE
 // ─────────────────────────────────────────────
 function renderReceipts() {
-  const el = document.getElementById('receipt-list');
-  if (!receipts.length) {
-    el.innerHTML=`<div class="empty"><div class="empty-ic">🧾</div><p>No receipts yet. Scan your first receipt to start tracking prices.</p><div class="empty-acts"><button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Scan First Receipt</button></div></div>`;
-    return;
-  }
-  el.innerHTML = [...receipts].reverse().map((r,i)=>`<div class="rcpt-card">
-    <span class="cdot" style="background:${storeColor(r.store)};flex-shrink:0"></span>
-    <div style="flex:1;min-width:0">
-      <div class="rcpt-store">${r.store}</div>
-      <div class="rcpt-meta">${r.items} item${r.items!==1?'s':''} tracked · ${fmtD(r.date)}</div>
-    </div>
-    <button onclick="deleteReceipt(${receipts.length-1-i})" class="del-btn">✕</button>
+const el = document.getElementById(‘receipt-list’);
+if (!receipts.length) {
+el.innerHTML=`<div class="empty"><div class="empty-ic">🧾</div><p>No receipts yet. Scan your first receipt to start tracking prices.</p><div class="empty-acts"><button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Scan First Receipt</button></div></div>`;
+return;
+}
+el.innerHTML = […receipts].reverse().map((r,i)=>`<div class="rcpt-card">
+<span class="cdot" style="background:${storeColor(r.store)};flex-shrink:0"></span>
+<div style="flex:1;min-width:0">
+<div class="rcpt-store">${r.store}</div>
+<div class="rcpt-meta">${r.items} item${r.items!==1?‘s’:’’} tracked · ${fmtD(r.date)}</div>
+</div>
+<button onclick="deleteReceipt(${receipts.length-1-i})" class="del-btn">✕</button>
+
   </div>`).join('');
 }
 function deleteReceipt(i) {
@@ -1381,493 +1198,469 @@ function deleteReceipt(i) {
 //  STORES PAGE
 // ─────────────────────────────────────────────
 function renderStores() {
-  const el = document.getElementById('stores-grid');
-  if (!stores.length) {
-    el.innerHTML='<div style="color:var(--ink3);font-size:.8rem;padding:14px 0;line-height:1.6">No stores yet. Stores are automatically registered when you scan a receipt or import deals. You can also add one manually above.</div>';
-    return;
-  }
-  el.innerHTML = stores.map(s => {
-    const u = entries.filter(e=>e.store===s.name).length;
-    const d = deals.filter(x=>x.store===s.name).length;
-    return `<div class="store-card">
-      <div class="store-card-top" style="background:${s.color}"></div>
-      <div class="store-card-name">${s.name}</div>
-      ${s.loc?`<div class="store-card-meta">📍 ${s.loc}</div>`:''}
-      <div class="store-card-meta">${u} price${u!==1?'s':''} · ${d} deal${d!==1?'s':''}</div>
-      <div style="display:flex;gap:6px;margin-top:10px">
-        <button class="btn btn-ghost btn-xs" onclick="openEditStore('${s.id}')">✏️ Edit</button>
-        <button class="btn btn-xs" style="background:var(--red-bg);color:var(--red);border:1px solid #fecaca" onclick="deleteStore('${s.id}')">✕</button>
-      </div>
-    </div>`;
-  }).join('');
+const el = document.getElementById(‘stores-grid’);
+if (!stores.length) {
+el.innerHTML=’<div style="color:var(--ink3);font-size:.78rem;padding:14px 0;line-height:1.6">No stores yet. Stores are automatically registered when you scan a receipt or import deals.</div>’;
+return;
+}
+el.innerHTML = stores.map(s => {
+const u = entries.filter(e=>e.store===s.name).length;
+const d = deals.filter(x=>x.store===s.name).length;
+return `<div class="store-card"> <div class="store-card-top" style="background:${s.color}"></div> <div class="store-card-name">${s.name}</div> ${s.loc?`<div class="store-card-meta">📍 ${s.loc}</div>`:''} <div class="store-card-meta">${u} price${u!==1?'s':''} · ${d} deal${d!==1?'s':''}</div> <div style="display:flex;gap:6px;margin-top:9px"> <button class="btn btn-ghost btn-xs" onclick="openEditStore('${s.id}')">✏️ Edit</button> <button class="btn btn-xs" style="background:var(--red-bg);color:var(--red);border:1px solid #fecaca" onclick="deleteStore('${s.id}')">✕</button> </div> </div>`;
+}).join(’’);
 }
 function addStore() {
-  const name  = document.getElementById('ns-name').value.trim();
-  const loc   = document.getElementById('ns-loc').value.trim();
-  const color = document.getElementById('ns-color').value;
-  if (!name) { toast('⚠️ Enter a store name','warn'); return; }
-  if (stores.find(s=>s.name.toLowerCase()===name.toLowerCase())) { toast('⚠️ Already exists','warn'); return; }
-  stores.push({id:'m_'+Date.now(),name,color,loc,builtin:false});
-  persistStores(); renderSidebarFilters(); renderStores(); populateSelects();
-  document.getElementById('ns-name').value=''; document.getElementById('ns-loc').value='';
-  document.getElementById('ns-color').value='#f59e0b';
-  toast(`✅ "${name}" added!`,'good');
+const name  = document.getElementById(‘ns-name’).value.trim();
+const loc   = document.getElementById(‘ns-loc’).value.trim();
+const color = document.getElementById(‘ns-color’).value;
+if (!name) { toast(‘⚠️ Enter a store name’,‘warn’); return; }
+if (stores.find(s=>s.name.toLowerCase()===name.toLowerCase())) { toast(‘⚠️ Already exists’,‘warn’); return; }
+stores.push({id:‘m_’+Date.now(),name,color,loc,builtin:false});
+persistStores(); renderSidebarFilters(); renderStores(); populateSelects();
+document.getElementById(‘ns-name’).value=’’; document.getElementById(‘ns-loc’).value=’’;
+document.getElementById(‘ns-color’).value=’#f59e0b’;
+toast(`✅ "${name}" added!`,‘good’);
 }
 function openEditStore(id) {
-  const s=stores.find(x=>x.id===id); if(!s)return;
-  document.getElementById('es-id').value=id; document.getElementById('es-name').value=s.name;
-  document.getElementById('es-loc').value=s.loc||''; document.getElementById('es-color').value=s.color;
-  document.getElementById('store-modal').classList.add('on');
+const s=stores.find(x=>x.id===id); if(!s)return;
+document.getElementById(‘es-id’).value=id; document.getElementById(‘es-name’).value=s.name;
+document.getElementById(‘es-loc’).value=s.loc||’’; document.getElementById(‘es-color’).value=s.color;
+document.getElementById(‘store-modal’).classList.add(‘on’);
 }
 function saveStoreEdit() {
-  const id=document.getElementById('es-id').value;
-  const name=document.getElementById('es-name').value.trim();
-  const loc=document.getElementById('es-loc').value.trim();
-  const color=document.getElementById('es-color').value;
-  if(!name){toast('⚠️ Name required','warn');return;}
-  const s=stores.find(x=>x.id===id); if(!s)return;
-  const old=s.name; s.name=name;s.loc=loc;s.color=color;
-  entries.forEach(e=>{if(e.store===old)e.store=name;});
-  receipts.forEach(r=>{if(r.store===old)r.store=name;});
-  deals.forEach(d=>{if(d.store===old)d.store=name;});
-  persistEntries();persistDeals();persistStores();closeModal('store-modal');
-  renderSidebarFilters();renderStores();populateSelects();renderHome();
-  toast(`✅ "${name}" updated!`,'good');
+const id=document.getElementById(‘es-id’).value;
+const name=document.getElementById(‘es-name’).value.trim();
+const loc=document.getElementById(‘es-loc’).value.trim();
+const color=document.getElementById(‘es-color’).value;
+if(!name){toast(‘⚠️ Name required’,‘warn’);return;}
+const s=stores.find(x=>x.id===id); if(!s)return;
+const old=s.name; s.name=name;s.loc=loc;s.color=color;
+entries.forEach(e=>{if(e.store===old)e.store=name;});
+receipts.forEach(r=>{if(r.store===old)r.store=name;});
+deals.forEach(d=>{if(d.store===old)d.store=name;});
+persistEntries();persistDeals();persistStores();closeModal(‘store-modal’);
+renderSidebarFilters();renderStores();populateSelects();renderHome();
+toast(`✅ "${name}" updated!`,‘good’);
 }
 function deleteStore(id) {
-  const s=stores.find(x=>x.id===id); if(!s)return;
-  const n=entries.filter(e=>e.store===s.name).length;
-  if(!confirm(n?`"${s.name}" has ${n} price entries. Remove anyway?`:`Remove "${s.name}"?`))return;
-  stores=stores.filter(x=>x.id!==id);
-  persistStores();renderSidebarFilters();renderStores();populateSelects();renderHome();
-  toast(`"${s.name}" removed.`);
+const s=stores.find(x=>x.id===id); if(!s)return;
+const n=entries.filter(e=>e.store===s.name).length;
+if(!confirm(n?`"${s.name}" has ${n} price entries. Remove anyway?`:`Remove "${s.name}"?`))return;
+stores=stores.filter(x=>x.id!==id);
+persistStores();renderSidebarFilters();renderStores();populateSelects();renderHome();
+toast(`"${s.name}" removed.`);
 }
 
 // ─────────────────────────────────────────────
 //  RECEIPT MODAL
 // ─────────────────────────────────────────────
-const SKIP=['subtotal','total','tax','discount','card','auth','reusable','bag','change','cash','debit','credit','visa','mastercard','amex','nf','wic','ebt','savings','saved','balance','thank','welcome','receipt','circle','items','membership','club','rewards','pts','points','coupon','promo'];
+const SKIP=[‘subtotal’,‘total’,‘tax’,‘discount’,‘card’,‘auth’,‘reusable’,‘bag’,‘change’,‘cash’,‘debit’,‘credit’,‘visa’,‘mastercard’,‘amex’,‘nf’,‘wic’,‘ebt’,‘savings’,‘saved’,‘balance’,‘thank’,‘welcome’,‘receipt’,‘circle’,‘items’,‘membership’,‘club’,‘rewards’,‘pts’,‘points’,‘coupon’,‘promo’];
 
 function openReceiptModal() {
-  document.getElementById('r-date').value = today();
-  document.getElementById('r-text').value = '';
-  document.getElementById('r-parsed').style.display = 'none';
-  document.getElementById('r-parsed').innerHTML = '';
-  const ps = document.getElementById('r-status');
-  ps.style.display = 'none'; ps.textContent = '';
-  document.getElementById('btn-import').disabled = true;
-  parsedItems = [];
-  // Rebuild the store field — if stores exist use select, else text input
-  const wrap = document.getElementById('r-store-wrap');
-  if (stores.length) {
-    wrap.innerHTML = `<select id="r-store">${stores.map(s=>`<option value="${s.name}">${s.name}${s.loc?' — '+s.loc:''}</option>`).join('')}</select>`;
-  } else {
-    wrap.innerHTML = `<input type="text" id="r-store" placeholder="e.g. Walmart, Target…"/>`;
-  }
-  document.getElementById('receipt-modal').classList.add('on');
+document.getElementById(‘r-date’).value = today();
+document.getElementById(‘r-text’).value = ‘’;
+document.getElementById(‘r-parsed’).style.display = ‘none’;
+document.getElementById(‘r-parsed’).innerHTML = ‘’;
+const ps = document.getElementById(‘r-status’);
+ps.style.display = ‘none’; ps.textContent = ‘’;
+document.getElementById(‘btn-import’).disabled = true;
+parsedItems = [];
+const wrap = document.getElementById(‘r-store-wrap’);
+if (stores.length) {
+wrap.innerHTML = `<select id="r-store">${stores.map(s=>`<option value="${s.name}">${s.name}${s.loc?’ — ‘+s.loc:’’}</option>`).join('')}</select>`;
+} else {
+wrap.innerHTML = `<input type="text" id="r-store" placeholder="e.g. Walmart, Target…"/>`;
+}
+document.getElementById(‘receipt-modal’).classList.add(‘on’);
 }
 
-function hFile(i) { if(i.files[0]) toast('Image received — paste receipt text below to parse.','warn'); }
-function hDrop(e) { e.preventDefault(); document.querySelector('.r-drop')?.classList.remove('over'); toast('Paste receipt text below.','warn'); }
+function hFile(i) { if(i.files[0]) toast(‘Image received — paste receipt text below to parse.’,‘warn’); }
+function hDrop(e) { e.preventDefault(); document.querySelector(’.r-drop’)?.classList.remove(‘over’); toast(‘Paste receipt text below.’,‘warn’); }
 
 function previewReceipt() {
-  const raw   = (document.getElementById('r-text').value || '').trim();
-  const store = (document.getElementById('r-store').value || '').trim();
-  const date  = (document.getElementById('r-date').value || '').trim();
-  if (!raw)   { toast('⚠️ Paste receipt text first','warn'); return; }
-  if (!store) { toast('⚠️ Enter or select a store','warn'); return; }
-  if (!date)  { toast('⚠️ Pick a date','warn'); return; }
-
-  parsedItems = [];
-  // Match price at end of line: $3.99 or 3.99 optionally followed by a tax letter
-  const re = /\$?\s*(\d{1,3}\.\d{2})\s*[A-Z]?\s*$/;
-  raw.split('\n').forEach(line => {
-    const lt = line.trim();
-    if (!lt || lt.length < 3) return;
-    const m = lt.match(re);
-    if (!m) return;
-    const price = parseFloat(m[1]);
-    if (isNaN(price) || price <= 0 || price > 999) return;
-    let name = lt
-      .replace(/\$?\s*\d{1,3}\.\d{2}\s*[A-Z]?\s*$/, '')
-      .replace(/\$\s*\d+\.\d{2}/g, '')
-      .replace(/\b\d{5,}\b/g, '')
-      .replace(/\bNF\b|\bWIC\b|\bT\b\s*$/gi, '')
-      .replace(/[*#@]/g, '')
-      .replace(/\s{2,}/g, ' ')
-      .trim();
-    if (!name || name.length < 2) return;
-    if (SKIP.some(w => name.toLowerCase().includes(w))) return;
-    name = name.replace(/\b\w/g, c => c.toUpperCase());
-    parsedItems.push({ item: name, store, price, date, qty: '', notes: 'Receipt' });
-  });
-
-  const pl = document.getElementById('r-parsed');
-  const ps = document.getElementById('r-status');
-  if (!parsedItems.length) {
-    ps.textContent = '⚠️ No items found. Each line should end with a price, e.g.:  BREAD   $3.99';
-    ps.style.display = 'block';
-    pl.style.display = 'none';
-    document.getElementById('btn-import').disabled = true;
-    return;
-  }
-  ps.textContent = `Found ${parsedItems.length} item${parsedItems.length !== 1 ? 's' : ''} — uncheck any to skip:`;
-  ps.style.display = 'block';
-  pl.innerHTML = parsedItems.map((p, i) =>
-    `<div class="p-row">
-       <input type="checkbox" id="pi-${i}" checked/>
-       <label for="pi-${i}" class="p-name">${p.item}</label>
-       <span class="p-price">$${p.price.toFixed(2)}</span>
-     </div>`
-  ).join('');
-  pl.style.display = 'block';
-  document.getElementById('btn-import').disabled = false;
-  toast(`👁 ${parsedItems.length} items found — review and import`);
+const raw   = (document.getElementById(‘r-text’).value || ‘’).trim();
+const store = (document.getElementById(‘r-store’).value || ‘’).trim();
+const date  = (document.getElementById(‘r-date’).value || ‘’).trim();
+if (!raw)   { toast(‘⚠️ Paste receipt text first’,‘warn’); return; }
+if (!store) { toast(‘⚠️ Enter or select a store’,‘warn’); return; }
+if (!date)  { toast(‘⚠️ Pick a date’,‘warn’); return; }
+parsedItems = [];
+const re = /$?\s*(\d{1,3}.\d{2})\s*[A-Z]?\s*$/;
+raw.split(’\n’).forEach(line => {
+const lt = line.trim();
+if (!lt || lt.length < 3) return;
+const m = lt.match(re);
+if (!m) return;
+const price = parseFloat(m[1]);
+if (isNaN(price) || price <= 0 || price > 999) return;
+let name = lt
+.replace(/$?\s*\d{1,3}.\d{2}\s*[A-Z]?\s*$/, ‘’)
+.replace(/$\s*\d+.\d{2}/g, ‘’)
+.replace(/\b\d{5,}\b/g, ‘’)
+.replace(/\bNF\b|\bWIC\b|\bT\b\s*$/gi, ‘’)
+.replace(/[*#@]/g, ‘’)
+.replace(/\s{2,}/g, ’ ‘)
+.trim();
+if (!name || name.length < 2) return;
+if (SKIP.some(w => name.toLowerCase().includes(w))) return;
+name = name.replace(/\b\w/g, c => c.toUpperCase());
+parsedItems.push({ item: name, store, price, date, qty: ‘’, notes: ‘Receipt’ });
+});
+const pl = document.getElementById(‘r-parsed’);
+const ps = document.getElementById(‘r-status’);
+if (!parsedItems.length) {
+ps.textContent = ‘⚠️ No items found. Each line should end with a price, e.g.:  BREAD   $3.99’;
+ps.style.display = ‘block’; pl.style.display = ‘none’;
+document.getElementById(‘btn-import’).disabled = true;
+return;
+}
+ps.textContent = `Found ${parsedItems.length} item${parsedItems.length !== 1 ? 's' : ''} — uncheck any to skip:`;
+ps.style.display = ‘block’;
+pl.innerHTML = parsedItems.map((p, i) =>
+`<div class="p-row"> <input type="checkbox" id="pi-${i}" checked/> <label for="pi-${i}" class="p-name">${p.item}</label> <span class="p-price">$${p.price.toFixed(2)}</span> </div>`
+).join(’’);
+pl.style.display = ‘block’;
+document.getElementById(‘btn-import’).disabled = false;
+toast(`👁 ${parsedItems.length} items found — review and import`);
 }
 
 function importReceipt() {
-  const store = (document.getElementById('r-store').value || '').trim();
-  const date  = (document.getElementById('r-date').value || '').trim();
-  if (!store)               { toast('⚠️ Enter a store name','warn'); return; }
-  if (!parsedItems.length)  { toast('⚠️ Click Preview first','warn'); return; }
-  ensureStore(store);
-  let count = 0;
-  parsedItems.forEach((p, i) => {
-    const cb = document.getElementById('pi-' + i);
-    if (cb && cb.checked) {
-      entries.push({ item: p.item, store, price: p.price, qty: '', date, notes: 'Receipt' });
-      count++;
-    }
-  });
-  if (!count) { toast('⚠️ No items selected','warn'); return; }
-  receipts.push({ store, date, items: count });
-  persistEntries();
-  closeModal('receipt-modal');
-  renderSidebarFilters();
-  populateSelects();
-  renderHome();
-  if (document.getElementById('page-grocery').classList.contains('active')) renderGrocery();
-  if (document.getElementById('page-pricetable').classList.contains('active')) renderPriceTable();
-  document.getElementById('sb-receipts').textContent = receipts.length;
-  toast(`✅ ${count} items tracked from ${store}!`, 'good');
+const store = (document.getElementById(‘r-store’).value || ‘’).trim();
+const date  = (document.getElementById(‘r-date’).value || ‘’).trim();
+if (!store)               { toast(‘⚠️ Enter a store name’,‘warn’); return; }
+if (!parsedItems.length)  { toast(‘⚠️ Click Preview first’,‘warn’); return; }
+ensureStore(store);
+let count = 0;
+parsedItems.forEach((p, i) => {
+const cb = document.getElementById(‘pi-’ + i);
+if (cb && cb.checked) {
+entries.push({ item: p.item, store, price: p.price, qty: ‘’, date, notes: ‘Receipt’ });
+count++;
+}
+});
+if (!count) { toast(‘⚠️ No items selected’,‘warn’); return; }
+receipts.push({ store, date, items: count });
+persistEntries();
+closeModal(‘receipt-modal’);
+renderSidebarFilters(); populateSelects(); renderHome();
+if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
+if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
+document.getElementById(‘sb-receipts’).textContent = receipts.length;
+toast(`✅ ${count} items tracked from ${store}!`, ‘good’);
 }
 
 // ─────────────────────────────────────────────
 //  DEAL MODAL
 // ─────────────────────────────────────────────
 function openDealModal() {
-  const w=nextWed();
-  document.getElementById('d-from').value=w;
-  document.getElementById('md-from').value=w;
-  document.getElementById('md-to').value=addDays(w,6);
-  document.getElementById('d-text').value='';
-  document.getElementById('parse-preview').style.display='none';
-  document.getElementById('btn-save-deals').style.display='none';
-  document.getElementById('ai-row').classList.remove('on');
-  document.getElementById('btn-ai').disabled=false;
-  document.getElementById('item-dl').innerHTML=uniqueItems().map(i=>`<option value="${i}">`).join('');
-  parsedDeals=[];
-  populateSelects();
-  document.getElementById('deal-modal').classList.add('on');
+const w=nextWed();
+document.getElementById(‘d-from’).value=w;
+document.getElementById(‘md-from’).value=w;
+document.getElementById(‘md-to’).value=addDays(w,6);
+document.getElementById(‘d-text’).value=’’;
+document.getElementById(‘parse-preview’).style.display=‘none’;
+document.getElementById(‘btn-save-deals’).style.display=‘none’;
+document.getElementById(‘ai-row’).classList.remove(‘on’);
+document.getElementById(‘btn-ai’).disabled=false;
+document.getElementById(‘item-dl’).innerHTML=uniqueItems().map(i=>`<option value="${i}">`).join(’’);
+parsedDeals=[];
+populateSelects();
+document.getElementById(‘deal-modal’).classList.add(‘on’);
 }
 
 function switchTab(btn,panelId) {
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  ['tp','tm'].forEach(id=>document.getElementById(id).style.display=id===panelId?'block':'none');
+document.querySelectorAll(’.tab-btn’).forEach(b=>b.classList.remove(‘active’));
+btn.classList.add(‘active’);
+[‘tp’,‘tm’].forEach(id=>document.getElementById(id).style.display=id===panelId?‘block’:‘none’);
 }
 
+// FIX: runAI — robust text extraction from all content block types
 async function runAI() {
-  const raw=document.getElementById('d-text').value.trim();
-  const store=document.getElementById('d-store').value;
-  const from=document.getElementById('d-from').value;
-  if(!raw){toast('⚠️ Paste ad text first','warn');return;}
-  if(!store){toast('⚠️ Select a store','warn');return;}
-  if(!from){toast('⚠️ Set the week start date','warn');return;}
+const raw=document.getElementById(‘d-text’).value.trim();
+const store=document.getElementById(‘d-store’).value;
+const from=document.getElementById(‘d-from’).value;
+if(!raw){toast(‘⚠️ Paste ad text first’,‘warn’);return;}
+if(!store){toast(‘⚠️ Select a store’,‘warn’);return;}
+if(!from){toast(‘⚠️ Set the week start date’,‘warn’);return;}
 
-  const dateTo=addDays(from,6);
-  const myItems=uniqueItems();
+const dateTo=addDays(from,6);
+const myItems=uniqueItems();
 
-  document.getElementById('ai-row').classList.add('on');
-  document.getElementById('btn-ai').disabled=true;
-  document.getElementById('parse-preview').style.display='none';
-  document.getElementById('btn-save-deals').style.display='none';
-  parsedDeals=[];
+document.getElementById(‘ai-row’).classList.add(‘on’);
+document.getElementById(‘btn-ai’).disabled=true;
+document.getElementById(‘parse-preview’).style.display=‘none’;
+document.getElementById(‘btn-save-deals’).style.display=‘none’;
+parsedDeals=[];
 
-  const prompt=`You are a grocery deal parser. Extract all grocery products and their sale prices from this weekly ad text.
+const prompt=`You are a grocery deal parser. Extract all grocery products and their sale prices from this weekly ad text.
 
-My tracked grocery list: ${myItems.length?myItems.join(', '):'(empty — extract everything)'}
+My tracked grocery list: ${myItems.length?myItems.join(’, ‘):’(empty — extract everything)’}
 
 Weekly ad:
-"""
+“””
 ${raw}
-"""
+“””
 
-Respond ONLY with a valid JSON array. No markdown. Each object must have:
+Respond ONLY with a valid JSON array. No markdown, no backticks, no preamble. Each object must have:
 {
-  "item": "clean product name",
-  "price": 1.99,
-  "origPrice": 2.99 or null,
-  "desc": "size/weight e.g. 3 lbs, per lb, 18 ct" or "",
-  "onMyList": true if matches my grocery list else false,
-  "matchedItem": "matched item name from my list or null"
+“item”: “clean product name”,
+“price”: 1.99,
+“origPrice”: 2.99 or null,
+“desc”: “size/weight e.g. 3 lbs, per lb, 18 ct” or “”,
+“onMyList”: true if matches my grocery list else false,
+“matchedItem”: “matched item name from my list or null”
 }`;
 
-  try {
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
-    });
-    const data=await res.json();
-    const txt=(data.content||[]).map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
-    let parsed=[];
-    try{parsed=JSON.parse(txt);}catch(e){parsed=[];}
+try {
+const res=await fetch(‘https://api.anthropic.com/v1/messages’,{
+method:‘POST’,headers:{‘Content-Type’:‘application/json’},
+body:JSON.stringify({model:‘claude-sonnet-4-20250514’,max_tokens:1000,messages:[{role:‘user’,content:prompt}]})
+});
+const data=await res.json();
 
-    document.getElementById('ai-row').classList.remove('on');
-    document.getElementById('btn-ai').disabled=false;
+```
+// FIX: extract text safely from all content block types
+const txt=(data.content||[])
+  .filter(c => c.type === 'text')
+  .map(c => c.text || '')
+  .join('')
+  .replace(/```json[\s\S]*?```|```[\s\S]*?```/g, m => m.replace(/```json|```/g,''))
+  .trim();
 
-    if(!parsed.length){toast('⚠️ No items found in that text','warn');return;}
-
-    parsedDeals=parsed.map((p,i)=>({...p,store,dateFrom:from,dateTo,id:'d_'+Date.now()+'_'+i}));
-    const onList=parsedDeals.filter(d=>d.onMyList);
-    const offList=parsedDeals.filter(d=>!d.onMyList);
-
-    document.getElementById('parse-summary').textContent=`${parsed.length} deals found · ${onList.length} match your grocery list`;
-
-    let html='';
-    if(onList.length){
-      html+=`<div class="m-section-lbl">✅ On your grocery list (${onList.length})</div>`;
-      html+=onList.map((d,i)=>`<div class="m-row"><input type="checkbox" id="dp-${i}" checked/><label for="dp-${i}" class="m-name">${d.item}${d.desc?` <span style="color:var(--ink3);font-size:.7rem">(${d.desc})</span>`:''}</label>${d.origPrice?`<span class="m-orig">$${parseFloat(d.origPrice).toFixed(2)}</span>`:''}<span class="m-price">$${parseFloat(d.price).toFixed(2)}</span></div>`).join('');
-    }
-    if(offList.length){
-      html+=`<div class="m-section-lbl">📋 Other deals — uncheck to skip (${offList.length})</div>`;
-      html+=offList.map((d,j)=>`<div class="m-row"><input type="checkbox" id="dp-${onList.length+j}"/><label for="dp-${onList.length+j}" class="m-name">${d.item}${d.desc?` <span style="color:var(--ink3);font-size:.7rem">(${d.desc})</span>`:''}</label>${d.origPrice?`<span class="m-orig">$${parseFloat(d.origPrice).toFixed(2)}</span>`:''}<span class="m-price">$${parseFloat(d.price).toFixed(2)}</span></div>`).join('');
-    }
-    document.getElementById('parse-list').innerHTML=html;
-    document.getElementById('parse-preview').style.display='block';
-    document.getElementById('btn-save-deals').style.display='inline-flex';
-    toast(`🤖 ${parsed.length} deals found · ${onList.length} on your list!`,'purple');
-  } catch(err) {
-    document.getElementById('ai-row').classList.remove('on');
-    document.getElementById('btn-ai').disabled=false;
-    toast('⚠️ AI parse failed. Check your connection.','warn');
-  }
+let parsed=[];
+try { parsed=JSON.parse(txt); } catch(e) {
+  // Try to extract JSON array even if there's surrounding text
+  const m = txt.match(/\[[\s\S]*\]/);
+  if (m) { try { parsed=JSON.parse(m[0]); } catch(e2) { parsed=[]; } }
 }
 
-function importDeals() {
-  if(!parsedDeals.length){toast('⚠️ Parse first','warn');return;}
-  let count=0;
-  parsedDeals.forEach((d,i)=>{
-    const cb=document.getElementById('dp-'+i);
-    if(cb&&cb.checked){
-      ensureStore(d.store);
-      deals.push({id:d.id,item:d.item,store:d.store,price:parseFloat(d.price),origPrice:d.origPrice?parseFloat(d.origPrice):null,desc:d.desc||'',dateFrom:d.dateFrom,dateTo:d.dateTo});
-      // track as price entry so item appears in grocery list
-      if(!entries.find(e=>e.item===d.item&&e.store===d.store&&e.date===d.dateFrom))
-        entries.push({item:d.item,store:d.store,price:parseFloat(d.price),qty:d.desc||'',date:d.dateFrom,notes:'Weekly deal'});
-      count++;
-    }
+document.getElementById('ai-row').classList.remove('on');
+document.getElementById('btn-ai').disabled=false;
+
+if(!parsed.length){toast('⚠️ No items found in that text. Try pasting more of the ad.','warn');return;}
+
+parsedDeals=parsed.map((p,i)=>({...p,store,dateFrom:from,dateTo,id:'d_'+Date.now()+'_'+i}));
+const onList=parsedDeals.filter(d=>d.onMyList);
+const offList=parsedDeals.filter(d=>!d.onMyList);
+
+document.getElementById('parse-summary').textContent=`${parsed.length} deals found · ${onList.length} match your grocery list`;
+
+// FIX: use flat parsedDeals index for all checkboxes to avoid save mismatch
+let html='';
+if(onList.length){
+  html+=`<div class="m-section-lbl">✅ On your grocery list (${onList.length})</div>`;
+  onList.forEach(d => {
+    const flatIdx = parsedDeals.indexOf(d);
+    html+=`<div class="m-row"><input type="checkbox" id="dp-${flatIdx}" checked/><label for="dp-${flatIdx}" class="m-name">${d.item}${d.desc?` <span style="color:var(--ink3);font-size:.68rem">(${d.desc})</span>`:''}</label>${d.origPrice?`<span class="m-orig">$${parseFloat(d.origPrice).toFixed(2)}</span>`:''}<span class="m-price">$${parseFloat(d.price).toFixed(2)}</span></div>`;
   });
-  if(!count){toast('⚠️ No items selected','warn');return;}
-  persistEntries();persistDeals();closeModal('deal-modal');
-  renderSidebarFilters();populateSelects();renderHome();
-  toast(`✅ ${count} deals saved!`,'purple');
+}
+if(offList.length){
+  html+=`<div class="m-section-lbl">📋 Other deals — uncheck to skip (${offList.length})</div>`;
+  offList.forEach(d => {
+    const flatIdx = parsedDeals.indexOf(d);
+    html+=`<div class="m-row"><input type="checkbox" id="dp-${flatIdx}"/><label for="dp-${flatIdx}" class="m-name">${d.item}${d.desc?` <span style="color:var(--ink3);font-size:.68rem">(${d.desc})</span>`:''}</label>${d.origPrice?`<span class="m-orig">$${parseFloat(d.origPrice).toFixed(2)}</span>`:''}<span class="m-price">$${parseFloat(d.price).toFixed(2)}</span></div>`;
+  });
+}
+document.getElementById('parse-list').innerHTML=html;
+document.getElementById('parse-preview').style.display='block';
+document.getElementById('btn-save-deals').style.display='inline-flex';
+toast(`🤖 ${parsed.length} deals found · ${onList.length} on your list!`,'purple');
+```
+
+} catch(err) {
+document.getElementById(‘ai-row’).classList.remove(‘on’);
+document.getElementById(‘btn-ai’).disabled=false;
+console.error(‘AI parse error:’, err);
+toast(‘⚠️ AI parse failed. Check your connection.’,‘warn’);
+}
+}
+
+// FIX: importDeals — iterates parsedDeals by flat index, matching checkbox IDs
+function importDeals() {
+if(!parsedDeals.length){toast(‘⚠️ Parse first’,‘warn’);return;}
+let count=0;
+parsedDeals.forEach((d,i)=>{
+const cb=document.getElementById(‘dp-’+i);
+if(cb&&cb.checked){
+ensureStore(d.store);
+deals.push({id:d.id,item:d.item,store:d.store,price:parseFloat(d.price),origPrice:d.origPrice?parseFloat(d.origPrice):null,desc:d.desc||’’,dateFrom:d.dateFrom,dateTo:d.dateTo});
+if(!entries.find(e=>e.item===d.item&&e.store===d.store&&e.date===d.dateFrom))
+entries.push({item:d.item,store:d.store,price:parseFloat(d.price),qty:d.desc||’’,date:d.dateFrom,notes:‘Weekly deal’});
+count++;
+}
+});
+if(!count){toast(‘⚠️ No items selected’,‘warn’);return;}
+persistEntries();persistDeals();closeModal(‘deal-modal’);
+renderSidebarFilters();populateSelects();renderHome();
+if(document.getElementById(‘page-deals’).classList.contains(‘active’)) renderDeals();
+toast(`✅ ${count} deals saved!`,‘purple’);
 }
 
 function saveManualDeal() {
-  const item=document.getElementById('md-item').value.trim();
-  const store=document.getElementById('md-store').value;
-  const price=parseFloat(document.getElementById('md-price').value);
-  const from=document.getElementById('md-from').value;
-  const to=document.getElementById('md-to').value;
-  if(!item||!store||isNaN(price)||!from||!to){toast('⚠️ Fill all required fields','warn');return;}
-  const orig=parseFloat(document.getElementById('md-orig').value)||null;
-  const desc=document.getElementById('md-desc').value.trim();
-  ensureStore(store);
-  deals.push({id:'m_'+Date.now(),item,store,price,origPrice:orig,desc,dateFrom:from,dateTo:to});
-  if(!entries.find(e=>e.item===item&&e.store===store&&e.date===from))
-    entries.push({item,store,price,qty:desc,date:from,notes:'Weekly deal'});
-  persistEntries();persistDeals();closeModal('deal-modal');
-  renderSidebarFilters();populateSelects();renderHome();
-  toast(`✅ ${item} $${price.toFixed(2)} at ${store} saved!`,'purple');
+const item=document.getElementById(‘md-item’).value.trim();
+const store=document.getElementById(‘md-store’).value;
+const price=parseFloat(document.getElementById(‘md-price’).value);
+const from=document.getElementById(‘md-from’).value;
+const to=document.getElementById(‘md-to’).value;
+if(!item||!store||isNaN(price)||!from||!to){toast(‘⚠️ Fill all required fields’,‘warn’);return;}
+const orig=parseFloat(document.getElementById(‘md-orig’).value)||null;
+const desc=document.getElementById(‘md-desc’).value.trim();
+ensureStore(store);
+deals.push({id:‘m_’+Date.now(),item,store,price,origPrice:orig,desc,dateFrom:from,dateTo:to});
+if(!entries.find(e=>e.item===item&&e.store===store&&e.date===from))
+entries.push({item,store,price,qty:desc,date:from,notes:‘Weekly deal’});
+persistEntries();persistDeals();closeModal(‘deal-modal’);
+renderSidebarFilters();populateSelects();renderHome();
+if(document.getElementById(‘page-deals’).classList.contains(‘active’)) renderDeals();
+toast(`✅ ${item} $${price.toFixed(2)} at ${store} saved!`,‘purple’);
 }
 
 // ─────────────────────────────────────────────
 //  MODALS SHARED
 // ─────────────────────────────────────────────
-function closeModal(id){document.getElementById(id).classList.remove('on');}
-document.querySelectorAll('.modal-ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
-document.querySelectorAll('.modal').forEach(m=>{
-  let sy=0;
-  m.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;},{passive:true});
-  m.addEventListener('touchmove',e=>{if(e.touches[0].clientY-sy>70&&m.scrollTop===0){const ov=m.closest('.modal-ov');if(ov)ov.classList.remove('on');}},{passive:true});
+function closeModal(id){document.getElementById(id).classList.remove(‘on’);}
+document.querySelectorAll(’.modal-ov’).forEach(o=>o.addEventListener(‘click’,e=>{if(e.target===o)o.classList.remove(‘on’);}));
+document.querySelectorAll(’.modal’).forEach(m=>{
+let sy=0;
+m.addEventListener(‘touchstart’,e=>{sy=e.touches[0].clientY;},{passive:true});
+m.addEventListener(‘touchmove’,e=>{if(e.touches[0].clientY-sy>70&&m.scrollTop===0){const ov=m.closest(’.modal-ov’);if(ov)ov.classList.remove(‘on’);}},{passive:true});
 });
 
 // ─────────────────────────────────────────────
-//  PRICE TABLE PAGE
+//  PRICE TABLE
 // ─────────────────────────────────────────────
 function renderPriceTable() {
-  const items = uniqueItems();
-  const allStores = [...new Set(entries.map(e => e.store))].sort();
-  const el = document.getElementById('ptable-el');
+const items = uniqueItems();
+const allStores = […new Set(entries.map(e => e.store))].sort();
+const el = document.getElementById(‘ptable-el’);
+if (!items.length) {
+el.innerHTML = `<div class="empty"><div class="empty-ic">📊</div><p>No items tracked yet.<br>Scan a receipt or import deals to populate this table.</p></div>`;
+return;
+}
+let html = `<table class="pt-table"><thead><tr> <th>Item</th><th>Qty</th> ${allStores.map(s => `<th><span style="display:inline-flex;align-items:center;gap:5px"><span class="cdot" style="background:${storeColor(s)}"></span>${s}</span></th>`).join(’’)}
+<th>Best</th>
 
-  if (!items.length) {
-    el.innerHTML = `<div class="empty"><div class="empty-ic">📊</div><p>No items tracked yet.<br>Scan a receipt or import deals to populate this table.</p></div>`;
-    return;
-  }
-
-  // Build table
-  let html = `<table class="pt-table"><thead><tr>
-    <th>Item</th>
-    <th>Qty</th>
-    ${allStores.map(s => {
-      const c = storeColor(s);
-      return `<th><span style="display:inline-flex;align-items:center;gap:5px"><span class="cdot" style="background:${c}"></span>${s}</span></th>`;
-    }).join('')}
-    <th>Best</th>
   </tr></thead><tbody>`;
-
   items.forEach(item => {
     const pbs = pricesByStore(item);
     if (!pbs.length) return;
     const bestPrice = pbs[0].price;
-    const deal = itemHasDeal(item);
     const emo = itemEmoji(item);
-
-    // qty from best entry
     const bestQty = pbs[0].qty || '';
     const rk = regItem(item);
-
-    html += `<tr>
-      <td>
-        <div class="pt-name-wrap">
-          <span class="pt-emoji">${emo}</span>
-          <span>${item}</span>
-          <button class="pt-del-btn" onclick="deleteItem('${rk}')" title="Remove item">🗑</button>
-        </div>
-      </td>
+    html += `<tr><td>
+      <div class="pt-name-wrap">
+        <span class="pt-emoji">${emo}</span><span>${item}</span>
+        <button class="pt-del-btn" onclick="deleteItem('${rk}')" title="Remove item">🗑</button>
+      </div></td>
       <td class="pt-cell-empty">${bestQty||'—'}</td>`;
-
     allStores.forEach(store => {
       const entry = pbs.find(p => p.store === store);
       const storeDeal = dealForStoreItem(item, store);
       if (entry) {
         const isBest = Math.abs(entry.price - bestPrice) < 0.001;
         const cls = isBest ? 'pt-cell-best' : storeDeal ? 'pt-cell-sale' : 'pt-cell-price';
-        html += `<td>
-          <span class="${cls}">$${parseFloat(entry.price).toFixed(2)}</span>
+        html += `<td><span class="${cls}">$${parseFloat(entry.price).toFixed(2)}</span>
           ${entry.qty?`<span class="pt-cell-qty">${entry.qty}</span>`:''}
-          ${storeDeal?`<span class="pt-cell-deal">🏷️ $${parseFloat(storeDeal.price).toFixed(2)} sale</span>`:''}
-        </td>`;
+          ${storeDeal?`<span class="pt-cell-deal">🏷️ $${parseFloat(storeDeal.price).toFixed(2)} sale</span>`:''}</td>`;
       } else {
         html += `<td><span class="pt-cell-empty">—</span></td>`;
       }
     });
-
-    // Best column
-    html += `<td>
-      <span class="pt-cell-best">$${parseFloat(bestPrice).toFixed(2)}</span>
-      <span class="pt-cell-qty">${pbs[0].store}</span>
-    </td></tr>`;
+    html += `<td><span class="pt-cell-best">$${parseFloat(bestPrice).toFixed(2)}</span><span class="pt-cell-qty">${pbs[0].store}</span></td></tr>`;
   });
-
   html += `</tbody></table>`;
   el.innerHTML = html;
 }
 
 function exportTable() {
-  const items = uniqueItems();
-  const allStores = [...new Set(entries.map(e => e.store))].sort();
-  const rows = [['Item', 'Qty', ...allStores, 'Best Price', 'Best Store']];
-  items.forEach(item => {
-    const pbs = pricesByStore(item);
-    if (!pbs.length) return;
-    const row = [item, pbs[0].qty||''];
-    allStores.forEach(store => {
-      const e = pbs.find(p=>p.store===store);
-      row.push(e ? `$${parseFloat(e.price).toFixed(2)}` : '—');
-    });
-    row.push(`$${parseFloat(pbs[0].price).toFixed(2)}`, pbs[0].store);
-    rows.push(row);
-  });
-  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = 'GrocerIQ_prices_' + today() + '.csv';
-  a.click();
-  toast('✅ CSV exported!', 'good');
+const items = uniqueItems();
+const allStores = […new Set(entries.map(e => e.store))].sort();
+const rows = [[‘Item’, ‘Qty’, …allStores, ‘Best Price’, ‘Best Store’]];
+items.forEach(item => {
+const pbs = pricesByStore(item);
+if (!pbs.length) return;
+const row = [item, pbs[0].qty||’’];
+allStores.forEach(store => {
+const e = pbs.find(p=>p.store===store);
+row.push(e ? `$${parseFloat(e.price).toFixed(2)}` : ‘—’);
+});
+row.push(`$${parseFloat(pbs[0].price).toFixed(2)}`, pbs[0].store);
+rows.push(row);
+});
+const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(’,’)).join(’\n’);
+const a = document.createElement(‘a’);
+a.href = ‘data:text/csv;charset=utf-8,’ + encodeURIComponent(csv);
+a.download = ‘GrocerIQ_prices_’ + today() + ‘.csv’;
+a.click();
+toast(‘✅ CSV exported!’, ‘good’);
 }
 
-// ─────────────────────────────────────────────
-//  DEAL URL FETCH (for Deals page)
-// ─────────────────────────────────────────────
+// FIX: fetchDealUrl — store pre-selection happens after modal is open
 async function fetchDealUrl(store) {
-  const feed = feeds.find(f => f.store === store);
-  if (!feed) { toast(`⚠️ No URL saved for ${store}. Add one in Deals → Deal Sources.`, 'warn'); return; }
-  // Open in new tab — can't fetch due to CORS; copy URL to clipboard and guide user
-  const myItems = uniqueItems();
-  const clipText = myItems.length
-    ? `My grocery list: ${myItems.join(', ')}\n\nPlease find deals matching my list from this store's weekly ad.`
-    : 'Please extract all deals from this weekly ad.';
-  try {
-    await navigator.clipboard.writeText(clipText);
-    toast(`📋 Your list copied! Opening ${store} ad…`);
-  } catch(e) { /* clipboard may not be available */ }
-  window.open(feed.url, '_blank');
-  // Pre-fill deal modal
-  setTimeout(() => {
-    openDealModal();
-    const sel = document.getElementById('d-store');
-    if (sel) sel.value = store;
-    toast(`💡 Open ad → select all text → paste into the text box → Parse with AI`, 'purple');
-  }, 500);
+const feed = feeds.find(f => f.store === store);
+if (!feed) { toast(`⚠️ No URL saved for ${store}.`, ‘warn’); return; }
+const myItems = uniqueItems();
+const clipText = myItems.length
+? `My grocery list: ${myItems.join(', ')}\n\nPlease find deals matching my list from this store's weekly ad.`
+: ‘Please extract all deals from this weekly ad.’;
+try { await navigator.clipboard.writeText(clipText); toast(`📋 Your list copied! Opening ${store} ad…`); }
+catch(e) { /* clipboard unavailable */ }
+window.open(feed.url, ‘_blank’);
+openDealModal();
+// FIX: set store after modal+selects are populated
+requestAnimationFrame(() => {
+const sel = document.getElementById(‘d-store’);
+if (sel) sel.value = store;
+toast(`💡 Open ad → select all text → paste → Parse with AI`, ‘purple’);
+});
 }
 
 // ─────────────────────────────────────────────
 //  RESET
 // ─────────────────────────────────────────────
 function resetAll(){
-  if(!confirm('Clear all data and start fresh?'))return;
-  entries=[];receipts=[];deals=[];feeds=[];stores=[];
-  persistEntries();persistDeals();persistFeeds();persistStores();
-  renderSidebarFilters();populateSelects();renderHome();
-  toast('All data cleared. Scan a receipt to start!');
+if(!confirm(‘Clear all data and start fresh?’))return;
+entries=[];receipts=[];deals=[];feeds=[];stores=[];
+persistEntries();persistDeals();persistFeeds();persistStores();
+renderSidebarFilters();populateSelects();renderHome();
+toast(‘All data cleared. Scan a receipt to start!’);
 }
 
 // ─────────────────────────────────────────────
 //  SEED DEMO DATA
 // ─────────────────────────────────────────────
 function seedDemo(){
-  if(entries.length>0)return;
-  const d='2026-03-04';
-  [{name:'Super King Markets',color:'#7c3aed'},{name:'Walmart',color:'#2563eb'},{name:'Costco',color:'#0891b2'}].forEach(s=>{
-    if(!stores.find(x=>x.name===s.name)) stores.push({id:'s_'+s.name.replace(/\s/g,''),name:s.name,color:s.color,loc:'',builtin:false});
-  });
-  entries=[
-    {item:'Whole Milk',     store:'Walmart',            price:3.98,qty:'1 gal',   date:d,notes:'Receipt'},
-    {item:'GG Eggs',        store:'Walmart',            price:2.18,qty:'1 dozen', date:d,notes:'Receipt'},
-    {item:'Chicken Breast', store:'Costco',             price:2.99,qty:'per lb',  date:d,notes:'Receipt'},
-    {item:'Bananas',        store:'Walmart',            price:0.57,qty:'per lb',  date:d,notes:'Receipt'},
-    {item:'Roma Tomatoes',  store:'Super King Markets', price:1.29,qty:'per lb',  date:d,notes:'Receipt'},
-    {item:'Oroweat Bread',  store:'Walmart',            price:3.48,qty:'1 loaf',  date:d,notes:'Receipt'},
-    {item:'Chicken Breast', store:'Super King Markets', price:0.99,qty:'per lb',  date:d,notes:'Weekly deal'},
-    {item:'GG Eggs',        store:'Super King Markets', price:2.29,qty:'18 ct',   date:d,notes:'Weekly deal'},
-    {item:'Roma Tomatoes',  store:'Super King Markets', price:0.79,qty:'3 lbs',   date:d,notes:'Weekly deal'},
-  ];
-  receipts=[
-    {store:'Walmart',            date:d,items:4},
-    {store:'Costco',             date:d,items:1},
-    {store:'Super King Markets', date:d,items:1},
-  ];
-  const wed='2026-03-04',tue='2026-03-10';
-  deals=[
-    {id:'d1',item:'Roma Tomatoes',  store:'Super King Markets',price:0.79,origPrice:1.29,desc:'3 lbs',      dateFrom:wed,dateTo:tue},
-    {id:'d2',item:'GG Eggs',        store:'Super King Markets',price:2.29,origPrice:3.49,desc:'18 ct',      dateFrom:wed,dateTo:tue},
-    {id:'d3',item:'Chicken Thighs', store:'Super King Markets',price:0.99,origPrice:1.79,desc:'bone-in/lb', dateFrom:wed,dateTo:tue},
-    {id:'d4',item:'Navel Oranges',  store:'Super King Markets',price:3.99,origPrice:null,desc:'5 lb bag',   dateFrom:wed,dateTo:tue},
-  ];
-  feeds=[{url:'https://superkingmarkets.ideal.sale/1073993/browse',store:'Super King Markets',added:d}];
-  persistEntries();persistDeals();persistFeeds();persistStores();
+if(entries.length>0)return;
+const d=‘2026-03-04’;
+[{name:‘Super King Markets’,color:’#7c3aed’},{name:‘Walmart’,color:’#2563eb’},{name:‘Costco’,color:’#0891b2’}].forEach(s=>{
+if(!stores.find(x=>x.name===s.name)) stores.push({id:‘s_’+s.name.replace(/\s/g,’’),name:s.name,color:s.color,loc:’’,builtin:false});
+});
+entries=[
+{item:‘Whole Milk’,     store:‘Walmart’,            price:3.98,qty:‘1 gal’,   date:d,notes:‘Receipt’},
+{item:‘GG Eggs’,        store:‘Walmart’,            price:2.18,qty:‘1 dozen’, date:d,notes:‘Receipt’},
+{item:‘Chicken Breast’, store:‘Costco’,             price:2.99,qty:‘per lb’,  date:d,notes:‘Receipt’},
+{item:‘Bananas’,        store:‘Walmart’,            price:0.57,qty:‘per lb’,  date:d,notes:‘Receipt’},
+{item:‘Roma Tomatoes’,  store:‘Super King Markets’, price:1.29,qty:‘per lb’,  date:d,notes:‘Receipt’},
+{item:‘Oroweat Bread’,  store:‘Walmart’,            price:3.48,qty:‘1 loaf’,  date:d,notes:‘Receipt’},
+{item:‘Chicken Breast’, store:‘Super King Markets’, price:0.99,qty:‘per lb’,  date:d,notes:‘Weekly deal’},
+{item:‘GG Eggs’,        store:‘Super King Markets’, price:2.29,qty:‘18 ct’,   date:d,notes:‘Weekly deal’},
+{item:‘Roma Tomatoes’,  store:‘Super King Markets’, price:0.79,qty:‘3 lbs’,   date:d,notes:‘Weekly deal’},
+];
+receipts=[
+{store:‘Walmart’,            date:d,items:4},
+{store:‘Costco’,             date:d,items:1},
+{store:‘Super King Markets’, date:d,items:1},
+];
+const wed=‘2026-03-04’,tue=‘2026-03-10’;
+deals=[
+{id:‘d1’,item:‘Roma Tomatoes’,  store:‘Super King Markets’,price:0.79,origPrice:1.29,desc:‘3 lbs’,      dateFrom:wed,dateTo:tue},
+{id:‘d2’,item:‘GG Eggs’,        store:‘Super King Markets’,price:2.29,origPrice:3.49,desc:‘18 ct’,      dateFrom:wed,dateTo:tue},
+{id:‘d3’,item:‘Chicken Thighs’, store:‘Super King Markets’,price:0.99,origPrice:1.79,desc:‘bone-in/lb’, dateFrom:wed,dateTo:tue},
+{id:‘d4’,item:‘Navel Oranges’,  store:‘Super King Markets’,price:3.99,origPrice:null,desc:‘5 lb bag’,   dateFrom:wed,dateTo:tue},
+];
+feeds=[{url:‘https://superkingmarkets.ideal.sale/1073993/browse’,store:‘Super King Markets’,added:d}];
+persistEntries();persistDeals();persistFeeds();persistStores();
 }
 
 // ─────────────────────────────────────────────
