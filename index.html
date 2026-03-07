@@ -39,7 +39,7 @@ padding:0 12px;z-index:400;gap:8px;
 .logo em{color:var(–amber);font-style:normal;}
 /* FIX 2: hide subtitle on mobile to prevent wrap */
 .logo span{font-size:.58rem;font-weight:500;color:var(–ink3);margin-left:4px;letter-spacing:0;vertical-align:middle;}
-@media(max-width:400px){.logo span{display:none;}}
+@media(max-width:340px){.logo span{display:none;}}
 .hdr-r{display:flex;gap:6px;align-items:center;flex-shrink:0;}
 .icon-btn{width:36px;height:36px;border-radius:var(–r3);background:none;border:none;color:var(–ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;}
 .icon-btn:active{background:var(–surf2);}
@@ -48,11 +48,11 @@ padding:0 12px;z-index:400;gap:8px;
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(–r3);font-family:‘Inter’,sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:.15s;white-space:nowrap;letter-spacing:-.1px;}
 /* FIX 3: restore solid fills for header buttons */
-.btn-amber{background:var(–amber);color:#fff;border:none;}
+.btn-amber{background:#f59e0b;color:#fff;border:none;}
 .btn-amber:active{background:var(–amber2);}
-.btn-green{background:var(–green);color:#fff;border:none;}
+.btn-green{background:#16a34a;color:#fff;border:none;}
 .btn-green:active{opacity:.85;}
-.btn-purple{background:var(–purple);color:#fff;border:none;}
+.btn-purple{background:#7c3aed;color:#fff;border:none;}
 .btn-purple:active{opacity:.85;}
 .btn-outline{background:var(–white);color:var(–ink2);border:1.5px solid var(–border2);}
 .btn-outline:active{background:var(–surf2);}
@@ -127,7 +127,7 @@ overflow-y:auto;overflow-x:hidden;
 /* ── STAT STRIP ── */
 /* FIX 6: 2-col on mobile (phones), 4-col at 420px+ */
 .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px;}
-@media(min-width:420px){.stat-row{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:360px){.stat-row{grid-template-columns:repeat(4,1fr);}}
 .stat{background:var(–card);border:1px solid var(–border);border-radius:var(–r);padding:13px 13px;}
 .stat-lbl{font-size:.6rem;font-weight:600;color:var(–ink3);text-transform:uppercase;letter-spacing:.8px;}
 .stat-val{font-size:1.6rem;font-weight:800;color:var(–ink);line-height:1;margin-top:4px;letter-spacing:-.5px;}
@@ -385,7 +385,7 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
     <div class="logo"><em>Grocer</em>IQ <span>Price Tracker</span></div>
   </div>
   <div class="hdr-r">
-    <button class="btn btn-outline btn-sm" onclick="openReceiptModal()">🧾 Receipt</button>
+    <button class="btn btn-amber btn-sm" onclick="openReceiptModal()">🧾 Receipt</button>
     <button class="btn btn-purple btn-sm" onclick="openDealModal()">🏷️ Deals</button>
   </div>
 </header>
@@ -1651,7 +1651,10 @@ toast(‘All data cleared. Scan a receipt to start!’);
 // ─────────────────────────────────────────────
 function seedDemo(){
 if(entries.length>0)return;
-const d=‘2026-03-04’;
+// Use dynamic dates so demo data never expires
+const d = today();
+const wed = today();
+const tue = addDays(wed, 6);
 [{name:‘Super King Markets’,color:’#7c3aed’},{name:‘Walmart’,color:’#2563eb’},{name:‘Costco’,color:’#0891b2’}].forEach(s=>{
 if(!stores.find(x=>x.name===s.name)) stores.push({id:‘s_’+s.name.replace(/\s/g,’’),name:s.name,color:s.color,loc:’’,builtin:false});
 });
@@ -1671,7 +1674,6 @@ receipts=[
 {store:‘Costco’,             date:d,items:1},
 {store:‘Super King Markets’, date:d,items:1},
 ];
-const wed=‘2026-03-04’,tue=‘2026-03-10’;
 deals=[
 {id:‘d1’,item:‘Roma Tomatoes’,  store:‘Super King Markets’,price:0.79,origPrice:1.29,desc:‘3 lbs’,      dateFrom:wed,dateTo:tue},
 {id:‘d2’,item:‘GG Eggs’,        store:‘Super King Markets’,price:2.29,origPrice:3.49,desc:‘18 ct’,      dateFrom:wed,dateTo:tue},
