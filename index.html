@@ -337,7 +337,10 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
 .empty p{font-size:.82rem;color:var(–ink3);line-height:1.6;margin-bottom:14px;}
 .empty-acts{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
 
+.g-del-btn{opacity:0;}
 @media(hover:none){.g-del-btn{opacity:1 !important;}}
+.g-card:hover .g-del-btn{opacity:1;}
+.g-del-btn:hover{background:var(–red-bg) !important;color:var(–red) !important;}
 
 /* ── PRICE TABLE ── */
 .pt-table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:360px;}
@@ -974,16 +977,17 @@ const deal  = itemHasDeal(item);
 const count = pbs.length;
 const emoji = itemEmoji(item);
 const c     = storeColor(best.store);
-const rk    = regItem(item);
-return `<div class="g-card ${deal?'has-deal':''}"> <div style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="openSheet(_itemReg['${rk}'])"> <div class="g-icon">${emoji}</div> <div class="g-body"> <div class="g-name"> ${item} ${deal?'<span class="on-sale-pill">🏷️ ON SALE</span>':''} </div> <div class="g-meta"> <span class="cdot" style="background:${c}"></span> <span style="color:${c};font-weight:600">${best.store}</span> ${count>1?`<span class="store-count-pill">+${count-1} more store${count>2?‘s’:’’}</span>`:''} ${best.qty?`<span>· ${best.qty}</span>`:''} </div> ${deal?`<div class="g-deal-line">🏷️ $${deal.price.toFixed(2)} at ${deal.store} · ends ${fmtD(deal.dateTo)}</div>`:’’}
+// Use data-item attribute to avoid stale registry key issues
+const safeItem = encodeURIComponent(item);
+return `<div class="g-card ${deal?'has-deal':''}" style="display:flex;align-items:center;gap:0"> <div style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0;padding-right:4px;overflow:hidden" onclick="openSheet(decodeURIComponent('${safeItem}'))"> <div class="g-icon">${emoji}</div> <div class="g-body"> <div class="g-name"> ${item} ${deal?'<span class="on-sale-pill">\uD83C\uDFF7\uFE0F ON SALE</span>':''} </div> <div class="g-meta"> <span class="cdot" style="background:${c}"></span> <span style="color:${c};font-weight:600">${best.store}</span> ${count>1?`<span class="store-count-pill">+${count-1} more store${count>2?‘s’:’’}</span>`:''} ${best.qty?`<span>\u00B7 ${best.qty}</span>`:''} </div> ${deal?`<div class="g-deal-line">\uD83C\uDFF7\uFE0F $${deal.price.toFixed(2)} at ${deal.store} \u00B7 ends ${fmtD(deal.dateTo)}</div>`:’’}
 </div>
 <div class="g-right">
 <div class="g-price">$${parseFloat(best.price).toFixed(2)}</div>
 <div class="g-store-lbl">best price</div>
 </div>
-<span class="g-caret">›</span>
+<span class="g-caret">\u203A</span>
 </div>
-<button onclick="deleteItem('${rk}')" title="Remove item" style="position:absolute;top:8px;right:8px;background:none;border:none;color:var(--ink3);font-size:.78rem;cursor:pointer;padding:4px 6px;border-radius:6px;line-height:1;opacity:0;transition:.15s" onmouseover="this.style.opacity=1;this.style.background='var(--red-bg)';this.style.color='var(--red)'" onmouseout="this.style.opacity=0;this.style.background='none';this.style.color='var(--ink3)'" class="g-del-btn">🗑</button>
+<button onclick="deleteItemDirect(decodeURIComponent('${safeItem}'))" title="Remove item" class="g-del-btn" style="flex-shrink:0;width:36px;height:36px;border-radius:8px;background:none;border:none;color:var(--ink3);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;margin-left:2px">\uD83D\uDDD1\uFE0F</button>
 
   </div>`;
 }
@@ -1018,6 +1022,8 @@ toast(s?`Showing: ${s}`:‘Filter cleared’, s?’’:‘warn’);
 //  PRICE COMPARE SHEET
 // ─────────────────────────────────────────────
 function openSheet(item) {
+// Accepts plain item name string (from grocery cards) or registry key (from home/sheet)
+if (_itemReg[item]) item = _itemReg[item];
 const pbs = pricesByStore(item);
 if (!pbs.length) return;
 const best  = pbs[0];
@@ -1109,6 +1115,19 @@ renderHome();
 if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
 if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
 toast(`"${item}" removed from your list.`);
+}
+
+// Direct delete by item name string — used by grocery card buttons
+function deleteItemDirect(item) {
+if (!item) return;
+if (!confirm(‘Remove “’ + item + ‘” and all its price history?’)) return;
+entries = entries.filter(e => e.item !== item);
+persistEntries();
+closeSheet();
+renderHome();
+if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
+if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
+toast(’”’ + item + ‘” removed from your list.’);
 }
 
 // ─────────────────────────────────────────────
