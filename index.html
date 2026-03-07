@@ -39,7 +39,7 @@ padding:0 12px;z-index:400;gap:8px;
 .logo em{color:var(–amber);font-style:normal;}
 /* FIX 2: hide subtitle on mobile to prevent wrap */
 .logo span{font-size:.58rem;font-weight:500;color:var(–ink3);margin-left:4px;letter-spacing:0;vertical-align:middle;}
-@media(max-width:340px){.logo span{display:none;}}
+@media(max-width:400px){.logo span{display:none;}}
 .hdr-r{display:flex;gap:6px;align-items:center;flex-shrink:0;}
 .icon-btn{width:36px;height:36px;border-radius:var(–r3);background:none;border:none;color:var(–ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;}
 .icon-btn:active{background:var(–surf2);}
@@ -337,7 +337,7 @@ input[type=“color”]{padding:3px 4px;height:40px;cursor:pointer;width:48px;}
 .empty p{font-size:.82rem;color:var(–ink3);line-height:1.6;margin-bottom:14px;}
 .empty-acts{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
 
-.g-del-btn{opacity:0;}
+.g-del-btn{opacity:0;transition:.15s;}
 @media(hover:none){.g-del-btn{opacity:1 !important;}}
 .g-card:hover .g-del-btn{opacity:1;}
 .g-del-btn:hover{background:var(–red-bg) !important;color:var(–red) !important;}
@@ -970,26 +970,35 @@ if (items.length>6) hl.innerHTML += `<div style="text-align:center;padding:12px 
 //  GROCERY CARD
 // ─────────────────────────────────────────────
 function buildGroceryCard(item) {
-const pbs   = pricesByStore(item);
+var pbs   = pricesByStore(item);
 if (!pbs.length) return ‘’;
-const best  = pbs[0];
-const deal  = itemHasDeal(item);
-const count = pbs.length;
-const emoji = itemEmoji(item);
-const c     = storeColor(best.store);
-// Use data-item attribute to avoid stale registry key issues
-const safeItem = encodeURIComponent(item);
-return `<div class="g-card ${deal?'has-deal':''}" style="display:flex;align-items:center;gap:0"> <div style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0;padding-right:4px;overflow:hidden" onclick="openSheet(decodeURIComponent('${safeItem}'))"> <div class="g-icon">${emoji}</div> <div class="g-body"> <div class="g-name"> ${item} ${deal?'<span class="on-sale-pill">\uD83C\uDFF7\uFE0F ON SALE</span>':''} </div> <div class="g-meta"> <span class="cdot" style="background:${c}"></span> <span style="color:${c};font-weight:600">${best.store}</span> ${count>1?`<span class="store-count-pill">+${count-1} more store${count>2?‘s’:’’}</span>`:''} ${best.qty?`<span>\u00B7 ${best.qty}</span>`:''} </div> ${deal?`<div class="g-deal-line">\uD83C\uDFF7\uFE0F $${deal.price.toFixed(2)} at ${deal.store} \u00B7 ends ${fmtD(deal.dateTo)}</div>`:’’}
-</div>
-<div class="g-right">
-<div class="g-price">$${parseFloat(best.price).toFixed(2)}</div>
-<div class="g-store-lbl">best price</div>
-</div>
-<span class="g-caret">\u203A</span>
-</div>
-<button onclick="deleteItemDirect(decodeURIComponent('${safeItem}'))" title="Remove item" class="g-del-btn" style="flex-shrink:0;width:36px;height:36px;border-radius:8px;background:none;border:none;color:var(--ink3);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;margin-left:2px">\uD83D\uDDD1\uFE0F</button>
-
-  </div>`;
+var best  = pbs[0];
+var deal  = itemHasDeal(item);
+var count = pbs.length;
+var emoji = itemEmoji(item);
+var c     = storeColor(best.store);
+var safeItem = encodeURIComponent(item);
+var dealLine = deal ? ‘<div class="g-deal-line">🏷 $’ + deal.price.toFixed(2) + ’ at ’ + deal.store + ’ · ends ’ + fmtD(deal.dateTo) + ‘</div>’ : ‘’;
+var salePill = deal ? ‘<span class="on-sale-pill">🏷 ON SALE</span>’ : ‘’;
+var storePill = count > 1 ? ‘<span class="store-count-pill">+’ + (count-1) + ’ more store’ + (count>2?‘s’:’’) + ‘</span>’ : ‘’;
+var qtySpan = best.qty ? ‘<span>· ’ + best.qty + ‘</span>’ : ‘’;
+return ‘<div class="g-card ' + (deal?'has-deal':'') + '" style="display:flex;align-items:center;">’
++ ‘<div style="flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;min-width:0;padding-right:4px" onclick="openSheet(decodeURIComponent('' + safeItem + ''))">’
++ ‘<div class="g-icon">’ + emoji + ‘</div>’
++ ‘<div class="g-body">’
++ ‘<div class="g-name">’ + item + ’ ’ + salePill + ‘</div>’
++ ‘<div class="g-meta"><span class="cdot" style="background:' + c + '"></span>’
++ ‘<span style="color:' + c + ';font-weight:600">’ + best.store + ‘</span>’
++ storePill + qtySpan + ‘</div>’
++ dealLine
++ ‘</div>’
++ ‘<div class="g-right"><div class="g-price">$’ + parseFloat(best.price).toFixed(2) + ‘</div><div class="g-store-lbl">best price</div></div>’
++ ‘<span class="g-caret">›</span>’
++ ‘</div>’
++ ‘<button onclick=“deleteItemDirect(decodeURIComponent(’’ + safeItem + ‘’))” title=“Remove” class=“g-del-btn”’
++ ’ style=“flex-shrink:0;width:36px;height:36px;border-radius:8px;background:none;border:none;’
++ ‘color:#a09a93;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:4px”>🗑</button>’
++ ‘</div>’;
 }
 
 // ─────────────────────────────────────────────
@@ -1022,7 +1031,6 @@ toast(s?`Showing: ${s}`:‘Filter cleared’, s?’’:‘warn’);
 //  PRICE COMPARE SHEET
 // ─────────────────────────────────────────────
 function openSheet(item) {
-// Accepts plain item name string (from grocery cards) or registry key (from home/sheet)
 if (_itemReg[item]) item = _itemReg[item];
 const pbs = pricesByStore(item);
 if (!pbs.length) return;
@@ -1117,17 +1125,16 @@ if (document.getElementById(‘page-pricetable’).classList.contains(‘active�
 toast(`"${item}" removed from your list.`);
 }
 
-// Direct delete by item name string — used by grocery card buttons
 function deleteItemDirect(item) {
 if (!item) return;
 if (!confirm(‘Remove “’ + item + ‘” and all its price history?’)) return;
-entries = entries.filter(e => e.item !== item);
+entries = entries.filter(function(e){ return e.item !== item; });
 persistEntries();
 closeSheet();
 renderHome();
 if (document.getElementById(‘page-grocery’).classList.contains(‘active’)) renderGrocery();
 if (document.getElementById(‘page-pricetable’).classList.contains(‘active’)) renderPriceTable();
-toast(’”’ + item + ‘” removed from your list.’);
+toast(’”’ + item + ‘” removed.’);
 }
 
 // ─────────────────────────────────────────────
@@ -1651,10 +1658,7 @@ toast(‘All data cleared. Scan a receipt to start!’);
 // ─────────────────────────────────────────────
 function seedDemo(){
 if(entries.length>0)return;
-// Use dynamic dates so demo data never expires
-const d = today();
-const wed = today();
-const tue = addDays(wed, 6);
+const d=today();
 [{name:‘Super King Markets’,color:’#7c3aed’},{name:‘Walmart’,color:’#2563eb’},{name:‘Costco’,color:’#0891b2’}].forEach(s=>{
 if(!stores.find(x=>x.name===s.name)) stores.push({id:‘s_’+s.name.replace(/\s/g,’’),name:s.name,color:s.color,loc:’’,builtin:false});
 });
@@ -1674,6 +1678,7 @@ receipts=[
 {store:‘Costco’,             date:d,items:1},
 {store:‘Super King Markets’, date:d,items:1},
 ];
+const wed=today(), tue=addDays(today(),6);
 deals=[
 {id:‘d1’,item:‘Roma Tomatoes’,  store:‘Super King Markets’,price:0.79,origPrice:1.29,desc:‘3 lbs’,      dateFrom:wed,dateTo:tue},
 {id:‘d2’,item:‘GG Eggs’,        store:‘Super King Markets’,price:2.29,origPrice:3.49,desc:‘18 ct’,      dateFrom:wed,dateTo:tue},
